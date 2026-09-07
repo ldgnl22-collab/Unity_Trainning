@@ -5,7 +5,7 @@ using UnityEngine;
 public class PlayerController : MonoBehaviour
 {
     [SerializeField] private Transform _cameraPivot;
-    [SerializeField] private Transform _weaponTransform;
+    private PlayerWeapon _weapon;
     
     private PlayerMovement _movement;
     private Transform _cameraTransform;
@@ -15,8 +15,12 @@ public class PlayerController : MonoBehaviour
     private void Start() => LockCursor();
 
     private void FixedUpdate() => _movement.Move();
-    
-    private void Update() => _movement.Rotate();
+
+    private void Update()
+    {
+        _movement.Rotate();
+        _weapon.Fire();
+    }
 
     private void LateUpdate()
     {
@@ -27,6 +31,7 @@ public class PlayerController : MonoBehaviour
     private void CacheComponents()
     {
         _movement = GetComponent<PlayerMovement>();
+        _weapon = GetComponentInChildren<PlayerWeapon>();
         _cameraTransform = Camera.main.transform;
     }
 
@@ -38,7 +43,7 @@ public class PlayerController : MonoBehaviour
 
     private void SetWeaponTransform()
     {
-        _weaponTransform.SetPositionAndRotation(
+        _weapon.transform.SetPositionAndRotation(
             _cameraPivot.position,
             _cameraPivot.rotation
             );
