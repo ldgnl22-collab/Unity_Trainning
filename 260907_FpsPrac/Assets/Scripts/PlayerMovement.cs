@@ -51,8 +51,7 @@ public class PlayerMovement : MonoBehaviour
     {
         float x = Input.GetAxis("Mouse X");
         float y = Input.GetAxis("Mouse Y");
-
-        // 이 부분 문제 됨.
+        
         return new Vector3(-y, x, 0);
     }
 
