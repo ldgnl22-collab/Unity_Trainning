@@ -4,17 +4,38 @@ using UnityEngine;
 
 public class PlayerMovement : MonoBehaviour
 {
+    
+    
     [SerializeField] private float _moveSpeed;
 
     [SerializeField] private Transform _cameraPivot;
     [SerializeField] private float _mouseSensitivity;
     [SerializeField] private float _minPitch;
     [SerializeField] private float _maxPitch;
+
+    [SerializeField] private float _range;
+    [SerializeField] private KeyCode _steamPack = KeyCode.LeftShift;
+    
+    PlayerWeapon _weapon;
+    
+    private bool _isPressedSteamPack => Input.GetKeyDown(_steamPack);
+    
+    public int _damage;
+    public float _attackDelay;
     
     private float _pitch;
     private Rigidbody _rigidbody;
+    
+    public bool _isSteamPack;
 
     private void Awake() => CacheComponents();
+
+    private void Start() => Init();
+
+    public void SteamPackSetCoolTime(float time)
+    {
+        _weapon.SetCoolTime(time);
+    }
 
     public void Rotate()
     {
@@ -37,14 +58,28 @@ public class PlayerMovement : MonoBehaviour
         Vector3 direction = transform.right * input.x +
                               transform.forward * input.z;
 
-        Vector3 newVelocity = new Vector3(
-            direction.x * _moveSpeed,
-            _rigidbody.velocity.y,
-            direction.z * _moveSpeed
-        );
-        
-        // _rigidbody.velocity에 적용
-        _rigidbody.velocity = newVelocity;
+        if (!_isSteamPack)
+        {
+            Vector3 newVelocity = new Vector3(
+                (direction.x) * _moveSpeed,
+                _rigidbody.velocity.y,
+                (direction.z) * _moveSpeed
+            );
+            
+            // _rigidbody.velocity에 적용
+            _rigidbody.velocity = newVelocity;
+        }
+        else
+        {
+            Vector3 newVelocity = new Vector3(
+                (direction.x) * (_moveSpeed+SteamPack._speedUp),
+                _rigidbody.velocity.y,
+                (direction.z) * (_moveSpeed+SteamPack._speedUp)
+            );
+            
+            // _rigidbody.velocity에 적용
+            _rigidbody.velocity = newVelocity;
+        }
     }
 
     private Vector3 ReadRotateInput()
@@ -66,5 +101,11 @@ public class PlayerMovement : MonoBehaviour
     private void CacheComponents()
     {
         _rigidbody = GetComponent<Rigidbody>();
+    }
+
+    private void Init()
+    {
+        _isSteamPack = false;
+        _weapon = GetComponent<PlayerWeapon>();
     }
 }
