@@ -4,21 +4,15 @@ using UnityEngine;
 
 public class PlayerMovement : MonoBehaviour
 {
-    
-    
     [SerializeField] private float _moveSpeed;
 
     [SerializeField] private Transform _cameraPivot;
     [SerializeField] private float _mouseSensitivity;
     [SerializeField] private float _minPitch;
     [SerializeField] private float _maxPitch;
+    [SerializeField] PlayerWeapon _weapon;
 
-    [SerializeField] private float _range;
-    [SerializeField] private KeyCode _steamPack = KeyCode.LeftShift;
-    
-    PlayerWeapon _weapon;
-    
-    private bool _isPressedSteamPack => Input.GetKeyDown(_steamPack);
+    [SerializeField] private float _steamPackCoolTime = SteamPack._itemCoolTime;
     
     public int _damage;
     public float _attackDelay;
@@ -34,7 +28,7 @@ public class PlayerMovement : MonoBehaviour
 
     public void SteamPackSetCoolTime(float time)
     {
-        _weapon.SetCoolTime(time);
+        _weapon.SetAutoFireCoolTime(time);
     }
 
     public void Rotate()
@@ -106,6 +100,5 @@ public class PlayerMovement : MonoBehaviour
     private void Init()
     {
         _isSteamPack = false;
-        _weapon = GetComponent<PlayerWeapon>();
     }
 }

@@ -109,6 +109,7 @@ public class PlayerController : MonoBehaviour, IInteractor
         if (!_canInteraction) return;
         
         _targetInteractable.Interact(this);
+        _movement._isSteamPack = true;
         _targetInteractable = null;
     }
 }

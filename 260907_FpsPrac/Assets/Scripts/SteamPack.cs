@@ -10,7 +10,7 @@ public class SteamPack : MonoBehaviour, IInteractable
     private const int _damage = 10;
     private const float _attackDelay = -0.2f;
 
-    private const float _itemCoolTime = 20f;
+    public const float _itemCoolTime = 20f;
 
     private float _coolTime;
 
@@ -20,10 +20,9 @@ public class SteamPack : MonoBehaviour, IInteractable
 
     private void Start() => Init();
 
-    private void Update() => UpCountTimer();
-    
     public void Targeting()
     {
+        Debug.Log($"스팀팩");
         _outline.enabled = true;
     }
 
@@ -35,6 +34,7 @@ public class SteamPack : MonoBehaviour, IInteractable
     public void UpCountTimer()
     {
         _coolTime = Time.time + _itemCoolTime;
+        Debug.Log($"{_coolTime} 초 동안 지속중");
     }
     
     public void Interact(IInteractor owner)
@@ -43,17 +43,26 @@ public class SteamPack : MonoBehaviour, IInteractable
         
         PlayerController player = (PlayerController)owner;
         
-        Debug.Log("Steam Pack");
         PlayerMovement playerMovement = player.gameObject.GetComponent<PlayerMovement>();
         
+        Debug.Log("Steam Pack 사용");
         playerMovement._isSteamPack = true;
         playerMovement.SteamPackSetCoolTime(_attackDelay);
-        
+        UpCountTimer();
+
+        if (_coolTime > _itemCoolTime)
+        {
+            _coolTime = 0f;
+            playerMovement._isSteamPack = false;
+            Debug.Log("스팀팩 종료");
+            return;
+        }
         Destroy(gameObject);
     }
 
     private void Init()
     {
+        _coolTime = 0f;
         _outline.enabled = false;
     }
     

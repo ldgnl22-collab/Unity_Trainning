@@ -316,6 +316,17 @@ PrefabInstance:
     m_AddedGameObjects: []
     m_AddedComponents: []
   m_SourcePrefab: {fileID: 100100000, guid: daaa009a736b9a643bc31d0462e1f8c2, type: 3}
+--- !u!114 &628713262 stripped
+MonoBehaviour:
+  m_CorrespondingSourceObject: {fileID: 2271906512748000826, guid: 824878ecf3b7edc46957531d86ae3bec, type: 3}
+  m_PrefabInstance: {fileID: 8083240992760829191}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 0}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: aad842ddf67218a4daaaf48e0ea87703, type: 3}
+  m_Name: 
+  m_EditorClassIdentifier: 
 --- !u!1 &684855848 stripped
 GameObject:
   m_CorrespondingSourceObject: {fileID: 3907611941156953611, guid: 824878ecf3b7edc46957531d86ae3bec, type: 3}
@@ -753,6 +764,10 @@ PrefabInstance:
       propertyPath: InitialModule.startSizeZ.minMaxState
       value: 3
       objectReference: {fileID: 0}
+    - target: {fileID: 4051753601630814382, guid: 824878ecf3b7edc46957531d86ae3bec, type: 3}
+      propertyPath: _weapon
+      value: 
+      objectReference: {fileID: 628713262}
     - target: {fileID: 5365266861829561380, guid: 824878ecf3b7edc46957531d86ae3bec, type: 3}
       propertyPath: m_Name
       value: Player

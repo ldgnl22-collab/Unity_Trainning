@@ -29,7 +29,7 @@ public class PlayerWeapon : MonoBehaviour
     // R 리로드 버튼 눌러야 다시 30발 참
     // 리로드 할수 있는 탄환은 무제한.
 
-    public void SetCoolTime(float time)
+    public void SetAutoFireCoolTime(float time)
     {
         _autoFireCooldown += time;
     }
