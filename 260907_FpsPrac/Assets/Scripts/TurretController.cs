@@ -2,7 +2,7 @@ using System.Collections;
 using System.Collections.Generic;
 using UnityEngine;
 
-public class TurretController : MonoBehaviour
+public class TurretController : MonoBehaviour, IDamageable
 {
     private const string TAG_PLAYER = "Player";
 
@@ -19,12 +19,15 @@ public class TurretController : MonoBehaviour
     
     private float _currentCoolDown;
     private Transform _playerTransform;
+    private int _hp = 10;
     
     // private bool _isPlayerInTrigger => _playerTransform != null;
     private bool _isPlayerInTrigger { get { return _playerTransform != null; } }
     private bool _isPlayerInSight;
     private bool _isReadyToFire { get { return _currentCoolDown >= _coolDown; } }
     private SphereCollider _sphereCollider;
+
+    public GameObject GameObject { get { return gameObject; } }
 
     private void Awake()
     {
@@ -133,5 +136,10 @@ public class TurretController : MonoBehaviour
                 Debug.Log("플레이어 감지");
             }
         }
+    }
+
+    public void TakeDamage(int damage)
+    {
+        
     }
 }

@@ -10,7 +10,7 @@ public class PlayerMovement : MonoBehaviour
     [SerializeField] private float _mouseSensitivity;
     [SerializeField] private float _minPitch;
     [SerializeField] private float _maxPitch;
-
+    
     private float _pitch;
     private Rigidbody _rigidbody;
 
