@@ -2,6 +2,7 @@ using System.Collections;
 using System.Collections.Generic;
 using UnityEngine;
 
+// [RequireComponent(typeof(Rigidbody))] // 리지드바디 강제 추가
 public class PlayerController : MonoBehaviour, IInteractor
 {
     [SerializeField] private Transform _cameraPivot;

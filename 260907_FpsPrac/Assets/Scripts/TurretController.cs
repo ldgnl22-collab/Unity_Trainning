@@ -2,9 +2,11 @@ using System.Collections;
 using System.Collections.Generic;
 using UnityEngine;
 
+
 public class TurretController : MonoBehaviour, IDamageable
 {
-    private const string TAG_PLAYER = "Player";
+    [SerializeField] private LayerMask _targetLayer;
+    private int _playerLayer = (1 << 7);
 
     [SerializeField] private float _rotateSpeed;
     [SerializeField] private float _coolDown;
@@ -25,30 +27,41 @@ public class TurretController : MonoBehaviour, IDamageable
     private bool _isPlayerInTrigger { get { return _playerTransform != null; } }
     private bool _isPlayerInSight;
     private bool _isReadyToFire { get { return _currentCoolDown >= _coolDown; } }
+
+    private bool _isPlayerLayer;
+    
     private SphereCollider _sphereCollider;
 
     public GameObject GameObject { get { return gameObject; } }
 
     private void Awake()
     {
+        Debug.Log("<color=red> 컬러로 </color>");
         CacheComponents();
         // _sphereCollider = GetComponent<SphereCollider>();
     }
 
     private void OnTriggerEnter(Collider other)
     {
-        if (other.gameObject.CompareTag(TAG_PLAYER))
+        Debug.Log("트리거");
+        Debug.Log($"{_targetLayer.value}");
+        Debug.Log($"{_playerLayer}");
+        Debug.Log($"{_targetLayer}");
+        Debug.Log($"{other.gameObject.layer}");
+        
+        if (_targetLayer.value == _playerLayer)
         {
-            _playerTransform = other.transform;
+            _isPlayerLayer = true;
+            _playerTransform = other.gameObject.transform;
         }
     }
 
     private void OnTriggerExit(Collider other)
     {
-        if (other.gameObject.CompareTag(TAG_PLAYER))
-        {
-            _playerTransform = null;
-        }
+        int layer = (1 << other.gameObject.layer);
+        if (!_targetLayer.Contains(layer)) return;
+        
+        _playerTransform = null;
     }
 
     private void Update()
@@ -115,12 +128,12 @@ public class TurretController : MonoBehaviour, IDamageable
 
         Vector3 from = new Vector3(
             transform.position.x,
-            transform.position.y + _muzzlePoint.position.y / 2,
+            transform.position.y + _muzzlePoint.position.y,
             transform.position.z
         );
         Vector3 to = new Vector3(
             _playerTransform.position.x,
-            _playerTransform.position.y + _muzzlePoint.position.y / 2,
+            _playerTransform.position.y + _muzzlePoint.position.y,
             _playerTransform.position.z
         );
         
@@ -130,7 +143,7 @@ public class TurretController : MonoBehaviour, IDamageable
         if (Physics.Raycast(ray, out hit, _sphereCollider.radius))
         {
             // 플레이어 찾았으면 감지 완료 된것임
-            if (hit.transform.CompareTag(TAG_PLAYER))
+            if (_playerTransform == hit.collider.transform)
             {
                 _isPlayerInSight = true;
                 Debug.Log("플레이어 감지");
