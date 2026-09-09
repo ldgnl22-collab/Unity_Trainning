@@ -30,12 +30,6 @@ public class SteamPack : MonoBehaviour, IInteractable
     {
         _outline.enabled = false;
     }
-
-    public void UpCountTimer()
-    {
-        _coolTime = Time.time + _itemCoolTime;
-        Debug.Log($"{_coolTime} 초 동안 지속중");
-    }
     
     public void Interact(IInteractor owner)
     {
@@ -48,7 +42,6 @@ public class SteamPack : MonoBehaviour, IInteractable
         Debug.Log("Steam Pack 사용");
         playerMovement._isSteamPack = true;
         playerMovement.SteamPackSetCoolTime(_attackDelay);
-        UpCountTimer();
 
         if (_coolTime > _itemCoolTime)
         {

@@ -2,7 +2,7 @@ using System.Collections;
 using System.Collections.Generic;
 using UnityEngine;
 
-public class PlayerMovement : MonoBehaviour
+public class PlayerMovement : MonoBehaviour, IUseItem
 {
     [SerializeField] private float _moveSpeed;
 
@@ -10,11 +10,17 @@ public class PlayerMovement : MonoBehaviour
     [SerializeField] private float _mouseSensitivity;
     [SerializeField] private float _minPitch;
     [SerializeField] private float _maxPitch;
-    [SerializeField] PlayerWeapon _weapon;
+    [SerializeField] private PlayerWeapon _weapon;
+    [SerializeField] private HandBomb _handBomb;
 
     [SerializeField] private float _steamPackCoolTime = SteamPack._itemCoolTime;
+
+    private KeyCode _throwHandBomb = KeyCode.Space;
+    private bool _isThrowHandBomb => Input.GetKeyDown(_throwHandBomb);
     
-    public int _damage;
+    private float _coolTime;
+    private bool _isTimer;
+    
     public float _attackDelay;
     
     private float _pitch;
@@ -25,10 +31,32 @@ public class PlayerMovement : MonoBehaviour
     private void Awake() => CacheComponents();
 
     private void Start() => Init();
+    
+    private void Update() => UpCountTimer(_isTimer);
+
+    public void ThrowHandBomb()
+    {
+        if (!_isThrowHandBomb) return;
+        
+        _handBomb.UseItem(this);
+    }
+
+    private void UpCountTimer(bool _timer)
+    {
+        if (!_timer) return;
+        _coolTime = Time.deltaTime;
+        Debug.Log($"{_coolTime} 초 동안 지속중");
+    }
 
     public void SteamPackSetCoolTime(float time)
     {
+        if (!(_steamPackCoolTime <= _coolTime))
+        {
+            _isTimer = false;
+            return;
+        }
         _weapon.SetAutoFireCoolTime(time);
+        _isTimer = true;
     }
 
     public void Rotate()

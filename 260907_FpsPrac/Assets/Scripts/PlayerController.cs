@@ -10,6 +10,7 @@ public class PlayerController : MonoBehaviour, IInteractor
     
     private PlayerWeapon _weapon;
     private PlayerMovement _movement;
+    [SerializeField] private HandBomb _handBomb;
     private Transform _cameraTransform;
     
     private IInteractable _targetInteractable;
@@ -29,6 +30,7 @@ public class PlayerController : MonoBehaviour, IInteractor
     private void Update()
     {
         _movement.Rotate();
+        _movement.ThrowHandBomb();
         _weapon.Fire();
         _weapon.Reload();
         DetectInteractable();
@@ -43,6 +45,7 @@ public class PlayerController : MonoBehaviour, IInteractor
 
     private void CacheComponents()
     {
+        _handBomb = GetComponent<HandBomb>();
         _movement = GetComponent<PlayerMovement>();
         _weapon = GetComponentInChildren<PlayerWeapon>();
         _cameraTransform = Camera.main.transform;
@@ -53,7 +56,7 @@ public class PlayerController : MonoBehaviour, IInteractor
         Cursor.lockState = CursorLockMode.Locked;
         Cursor.visible = false;     // 마우스 커서 보임 여부
     }
-
+    
     private void SetWeaponTransform()
     {
         _weapon.transform.SetPositionAndRotation(
@@ -109,7 +112,6 @@ public class PlayerController : MonoBehaviour, IInteractor
         if (!_canInteraction) return;
         
         _targetInteractable.Interact(this);
-        _movement._isSteamPack = true;
         _targetInteractable = null;
     }
 }

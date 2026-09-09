@@ -2,7 +2,7 @@ using System.Collections;
 using System.Collections.Generic;
 using UnityEngine;
 
-public class IItem : MonoBehaviour
+public interface IItem
 {
-    
+    public void UseItem(IUseItem owner);
 }
