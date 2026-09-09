@@ -14,8 +14,8 @@ public class PlayerWeapon : MonoBehaviour
     [SerializeField] int maxBulletCount = 30;
     [SerializeField] private FlameEffect _flameEffect;
     [SerializeField] private FlameEffect _bulletImpactPrefab;
-    
-    [SerializeField] private float _autoFireCooldown;
+
+    [field: SerializeField] public float _shootingSpeed { get; set; } = 0.3f;
 
     private int currentBulletCount;
     private float _coolTime;
@@ -28,9 +28,9 @@ public class PlayerWeapon : MonoBehaviour
     // R 리로드 버튼 눌러야 다시 30발 참
     // 리로드 할수 있는 탄환은 무제한.
 
-    public void SetAutoFireCoolTime(float time)
+    public void SetShootingSpeed(float speed)
     {
-        _autoFireCooldown += time;
+        _shootingSpeed = speed;
     }
     
     private void Awake() => CacheComponents();
@@ -46,7 +46,7 @@ public class PlayerWeapon : MonoBehaviour
     {
         _coolTime += Time.deltaTime;
         
-        if (_coolTime >= _autoFireCooldown)
+        if (_coolTime >= _shootingSpeed)
         {
             return true;
         }

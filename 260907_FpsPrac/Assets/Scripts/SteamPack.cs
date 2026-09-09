@@ -8,18 +8,20 @@ public class SteamPack : MonoBehaviour, IInteractable
 
     public const float _speedUp = 10;
     private const int _damage = 10;
-    private const float _attackDelay = -0.2f;
+    private const float _attackDelay = 0.2f;
 
-    public const float _itemCoolTime = 20f;
+    [field: SerializeField] public float _originSpeed { get; private set; }
+    [field: SerializeField] public float _originAttackDelay { get; private set; }
 
-    private float _coolTime;
-
+    [field: SerializeField] public float _itemCoolTime { get; private set; } = 10f;
+    
+    [SerializeField] private PlayerWeapon _playerWeapon;
     private Outline _outline;
     
     public void Awake() => CacheComponents();
 
     private void Start() => Init();
-
+    
     public void Targeting()
     {
         Debug.Log($"스팀팩");
@@ -38,24 +40,22 @@ public class SteamPack : MonoBehaviour, IInteractable
         PlayerController player = (PlayerController)owner;
         
         PlayerMovement playerMovement = player.gameObject.GetComponent<PlayerMovement>();
+        _originSpeed = playerMovement._moveSpeed;
+        _originAttackDelay = _playerWeapon._shootingSpeed;
+        player.GetComponent<PlayerStat>().Damage(_damage);
+        
+        playerMovement._moveSpeed += _speedUp;
+        _playerWeapon._shootingSpeed = _attackDelay;
         
         Debug.Log("Steam Pack 사용");
         playerMovement._isSteamPack = true;
-        playerMovement.SteamPackSetCoolTime(_attackDelay);
+        playerMovement.SteamPackSetInit(_attackDelay);
 
-        if (_coolTime > _itemCoolTime)
-        {
-            _coolTime = 0f;
-            playerMovement._isSteamPack = false;
-            Debug.Log("스팀팩 종료");
-            return;
-        }
         Destroy(gameObject);
     }
 
     private void Init()
     {
-        _coolTime = 0f;
         _outline.enabled = false;
     }
     

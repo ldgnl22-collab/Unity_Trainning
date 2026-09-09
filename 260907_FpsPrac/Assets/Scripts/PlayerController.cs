@@ -26,10 +26,14 @@ public class PlayerController : MonoBehaviour, IInteractor
     
     private void Start() => LockCursor();
 
-    private void FixedUpdate() => _movement.Move();
+    private void FixedUpdate()
+    {
+        _movement.Move();
+    }
     
     private void Update()
     {
+        _movement.Jump();
         _movement.Rotate();
         _movement.ThrowHandBomb();
         _weapon.Fire();

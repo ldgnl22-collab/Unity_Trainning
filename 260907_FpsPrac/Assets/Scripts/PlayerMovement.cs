@@ -4,35 +4,60 @@ using UnityEngine;
 
 public class PlayerMovement : MonoBehaviour, IUseItem
 {
-    [SerializeField] private float _moveSpeed;
+    [field: SerializeField] public float _moveSpeed { get; set; } = 5f;
+    [field: SerializeField] public float _jumpForce { get; set; } = 5f;
 
     [SerializeField] private Transform _cameraPivot;
     [SerializeField] private float _mouseSensitivity;
     [SerializeField] private float _minPitch;
     [SerializeField] private float _maxPitch;
     [SerializeField] private PlayerWeapon _weapon;
+    [SerializeField] private SteamPack _steamPack;
     [SerializeField] private HandBomb _handBomb;
-
-    [SerializeField] private float _steamPackCoolTime = SteamPack._itemCoolTime;
+    
+    [SerializeField] LayerMask _layerMask;
 
     private KeyCode _throwHandBomb = KeyCode.Space;
     private bool _isThrowHandBomb => Input.GetKeyDown(_throwHandBomb);
     
-    private float _coolTime;
-    private bool _isTimer;
-    
-    public float _attackDelay;
+    private KeyCode _jump = KeyCode.Space;
+    private bool _isJump => Input.GetKeyDown(_jump);
     
     private float _pitch;
     private Rigidbody _rigidbody;
     
     public bool _isSteamPack;
+    private float _coolTime;
+    private bool _isTimer;
 
     private void Awake() => CacheComponents();
 
     private void Start() => Init();
-    
-    private void Update() => UpCountTimer(_isTimer);
+
+    private void Update()
+    {
+        EndSteamPack();
+    }
+
+    private void EndSteamPack()
+    {
+        if (_coolTime > _steamPack._itemCoolTime)
+        {
+            _coolTime = 0f;
+            _isSteamPack = false;
+            _moveSpeed = _steamPack._originSpeed;
+            _weapon._shootingSpeed = _steamPack._originAttackDelay;
+            Debug.Log("스팀팩 종료");
+            
+            return;
+        }
+
+        if (_isSteamPack)
+        {
+            _coolTime += Time.deltaTime;
+            Debug.Log($"{_coolTime} 초 동안 지속중");
+        }
+    }
 
     public void ThrowHandBomb()
     {
@@ -40,23 +65,10 @@ public class PlayerMovement : MonoBehaviour, IUseItem
         
         _handBomb.UseItem(this);
     }
-
-    private void UpCountTimer(bool _timer)
+    
+    public void SteamPackSetInit(float speed)
     {
-        if (!_timer) return;
-        _coolTime = Time.deltaTime;
-        Debug.Log($"{_coolTime} 초 동안 지속중");
-    }
-
-    public void SteamPackSetCoolTime(float time)
-    {
-        if (!(_steamPackCoolTime <= _coolTime))
-        {
-            _isTimer = false;
-            return;
-        }
-        _weapon.SetAutoFireCoolTime(time);
-        _isTimer = true;
+        _weapon.SetShootingSpeed(speed);
     }
 
     public void Rotate()
@@ -80,27 +92,21 @@ public class PlayerMovement : MonoBehaviour, IUseItem
         Vector3 direction = transform.right * input.x +
                               transform.forward * input.z;
 
-        if (!_isSteamPack)
+        Vector3 newVelocity = new Vector3(
+            (direction.x) * _moveSpeed,
+            _rigidbody.velocity.y,
+            (direction.z) * _moveSpeed
+        );
+        
+        // _rigidbody.velocity에 적용
+        _rigidbody.velocity = newVelocity;
+    }
+
+    public void Jump()
+    {
+        if (_isJump)
         {
-            Vector3 newVelocity = new Vector3(
-                (direction.x) * _moveSpeed,
-                _rigidbody.velocity.y,
-                (direction.z) * _moveSpeed
-            );
-            
-            // _rigidbody.velocity에 적용
-            _rigidbody.velocity = newVelocity;
-        }
-        else
-        {
-            Vector3 newVelocity = new Vector3(
-                (direction.x) * (_moveSpeed+SteamPack._speedUp),
-                _rigidbody.velocity.y,
-                (direction.z) * (_moveSpeed+SteamPack._speedUp)
-            );
-            
-            // _rigidbody.velocity에 적용
-            _rigidbody.velocity = newVelocity;
+            _rigidbody.AddForce(transform.up * _jumpForce, ForceMode.Impulse);
         }
     }
 
