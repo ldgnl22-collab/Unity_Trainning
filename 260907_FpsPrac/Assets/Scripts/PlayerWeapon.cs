@@ -22,7 +22,6 @@ public class PlayerWeapon : MonoBehaviour
     private bool _hasBullets => currentBulletCount > 0;
     private bool _isPressedFire => Input.GetKey(_fireKey);
     private bool _isPressedReload => Input.GetKeyDown(_reloadKey);
-    private bool _isPressUpFire => Input.GetKeyUp(_fireKey);
     
     // 한 탄알집에 30발 들어갈수 있다고 가정
     // 30 발 다쏘면 총 안쏴짐
@@ -63,6 +62,11 @@ public class PlayerWeapon : MonoBehaviour
         
         if (!_isPressedFire) return;
         if (!WeaponCoolTime()) return;
+        if (currentBulletCount <= 0)
+        {
+            Debug.Log("탄약이 부족합니다.");
+            return;
+        }
         
         currentBulletCount--;
         _coolTime = 0f;
