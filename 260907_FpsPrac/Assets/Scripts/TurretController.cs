@@ -27,8 +27,6 @@ public class TurretController : MonoBehaviour, IDamageable
     private bool _isPlayerInTrigger { get { return _playerTransform != null; } }
     private bool _isPlayerInSight;
     private bool _isReadyToFire { get { return _currentCoolDown >= _coolDown; } }
-
-    private bool _isPlayerLayer;
     
     private SphereCollider _sphereCollider;
 
@@ -43,23 +41,14 @@ public class TurretController : MonoBehaviour, IDamageable
 
     private void OnTriggerEnter(Collider other)
     {
-        Debug.Log("트리거");
-        Debug.Log($"{_targetLayer.value}");
-        Debug.Log($"{_playerLayer}");
-        Debug.Log($"{_targetLayer}");
-        Debug.Log($"{other.gameObject.layer}");
-        
-        if (_targetLayer.value == _playerLayer)
-        {
-            _isPlayerLayer = true;
-            _playerTransform = other.gameObject.transform;
-        }
+        if (!_targetLayer.Contains(other)) return;
+
+        _playerTransform = other.gameObject.transform;
     }
 
     private void OnTriggerExit(Collider other)
     {
-        int layer = (1 << other.gameObject.layer);
-        if (!_targetLayer.Contains(layer)) return;
+        if (!_targetLayer.Contains(other)) return;
         
         _playerTransform = null;
     }
@@ -140,14 +129,13 @@ public class TurretController : MonoBehaviour, IDamageable
         Ray ray = new Ray(from, (to - from).normalized);
         RaycastHit hit;
 
-        if (Physics.Raycast(ray, out hit, _sphereCollider.radius))
+        if (Physics.Raycast(ray, out hit, _sphereCollider.radius, _targetLayer))
         {
             // 플레이어 찾았으면 감지 완료 된것임
-            if (_playerTransform == hit.collider.transform)
-            {
+            if (hit.transform != _playerTransform) return;
+            
                 _isPlayerInSight = true;
                 Debug.Log("플레이어 감지");
-            }
         }
     }
 
