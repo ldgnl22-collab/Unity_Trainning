@@ -705,6 +705,10 @@ PrefabInstance:
       value: 0.3
       objectReference: {fileID: 0}
     - target: {fileID: 4051753601630814382, guid: 824878ecf3b7edc46957531d86ae3bec, type: 3}
+      propertyPath: _groundMask.m_Bits
+      value: 512
+      objectReference: {fileID: 0}
+    - target: {fileID: 4051753601630814382, guid: 824878ecf3b7edc46957531d86ae3bec, type: 3}
       propertyPath: <_jumpForce>k__BackingField
       value: 5
       objectReference: {fileID: 0}

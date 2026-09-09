@@ -15,14 +15,16 @@ public class PlayerMovement : MonoBehaviour, IUseItem
     [SerializeField] private SteamPack _steamPack;
     [SerializeField] private HandBomb _handBomb;
     
-    [SerializeField] LayerMask _layerMask;
+    [SerializeField] LayerMask _groundMask;
 
     private KeyCode _throwHandBomb = KeyCode.Space;
     private bool _isThrowHandBomb => Input.GetKeyDown(_throwHandBomb);
     
     private KeyCode _jump = KeyCode.Space;
     private bool _isJump => Input.GetKeyDown(_jump);
-    
+    private bool _isPossibleJump;
+
+    private float _checkGroundRange;
     private float _pitch;
     private Rigidbody _rigidbody;
     
@@ -104,9 +106,30 @@ public class PlayerMovement : MonoBehaviour, IUseItem
 
     public void Jump()
     {
-        if (_isJump)
+        if (_isJump && _isPossibleJump)
         {
             _rigidbody.AddForce(transform.up * _jumpForce, ForceMode.Impulse);
+        }
+    }
+    
+    public void PossibleJump()
+    {
+        Ray ray =  new Ray(transform.position, Vector3.down);
+        RaycastHit hit;
+
+        if (Physics.Raycast(ray, out hit, _checkGroundRange))
+        {
+            if (!_groundMask.Contains(hit.collider.gameObject.layer))
+            {
+                _isPossibleJump = false;
+                return;
+            }
+
+            Vector3 newVelocity = new Vector3(1f, 0f, 1f) * _moveSpeed;
+            
+            _rigidbody.velocity = newVelocity;
+            
+            _isPossibleJump = true;
         }
     }
 
