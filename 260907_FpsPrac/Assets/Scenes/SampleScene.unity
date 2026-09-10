@@ -459,6 +459,10 @@ PrefabInstance:
       propertyPath: _playerWeapon
       value: 
       objectReference: {fileID: 893964553}
+    - target: {fileID: -7257191618731166756, guid: 51bc9c0f61ed65f479a22d79bf7ad995, type: 3}
+      propertyPath: <_originAttackDelay>k__BackingField
+      value: 0.5
+      objectReference: {fileID: 0}
     - target: {fileID: 1887268819026605701, guid: 51bc9c0f61ed65f479a22d79bf7ad995, type: 3}
       propertyPath: m_LocalPosition.x
       value: 0.66

@@ -4,6 +4,8 @@ using UnityEngine;
 
 public class PlayerMovement : MonoBehaviour, IUseItem
 {
+    public const float ORIGIN_MOVE_SPEED = 5f;
+    public const float ORIGIN_ATK_SPEED = 0.5f;
     [field: SerializeField] public float _moveSpeed { get; set; } = 5f;
     [field: SerializeField] public float _jumpForce { get; set; } = 5f;
 
@@ -29,7 +31,8 @@ public class PlayerMovement : MonoBehaviour, IUseItem
     private Rigidbody _rigidbody;
     
     public bool _isSteamPack;
-    private float _coolTime;
+    private float _durationCool;
+    private float _duration;
     private bool _isTimer;
 
     private void Awake() => CacheComponents();
@@ -43,12 +46,12 @@ public class PlayerMovement : MonoBehaviour, IUseItem
 
     private void EndSteamPack()
     {
-        if (_coolTime > _steamPack._itemCoolTime)
+        if (_durationCool > _duration)
         {
-            _coolTime = 0f;
+            _durationCool = 0f;
             _isSteamPack = false;
-            _moveSpeed = _steamPack._originSpeed;
-            _weapon._shootingSpeed = _steamPack._originAttackDelay;
+            _moveSpeed = ORIGIN_MOVE_SPEED;
+            _weapon._shootingSpeed = ORIGIN_ATK_SPEED;
             Debug.Log("스팀팩 종료");
             
             return;
@@ -56,8 +59,8 @@ public class PlayerMovement : MonoBehaviour, IUseItem
 
         if (_isSteamPack)
         {
-            _coolTime += Time.deltaTime;
-            Debug.Log($"{_coolTime} 초 동안 지속중");
+            _durationCool += Time.deltaTime;
+            Debug.Log($"{_durationCool} 초 동안 지속중");
         }
     }
 
@@ -66,11 +69,6 @@ public class PlayerMovement : MonoBehaviour, IUseItem
         if (!_isThrowHandBomb) return;
         
         _handBomb.UseItem(this);
-    }
-    
-    public void SteamPackSetInit(float speed)
-    {
-        _weapon.SetShootingSpeed(speed);
     }
 
     public void Rotate()
@@ -157,5 +155,13 @@ public class PlayerMovement : MonoBehaviour, IUseItem
     private void Init()
     {
         _isSteamPack = false;
+    }
+
+    public void AddSpeed(float speed, float shootingSpeed, float duration)
+    {
+        _isSteamPack = true;
+        _duration = duration;
+        _moveSpeed += speed;
+        _weapon._shootingSpeed = shootingSpeed;
     }
 }

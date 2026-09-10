@@ -119,4 +119,9 @@ public class PlayerController : MonoBehaviour, IInteractor
         _targetInteractable.Interact(this);
         _targetInteractable = null;
     }
+
+    public void AddMoveSpeed(float speed, float shootingSpeed, float cooldown)
+    {
+        _movement.AddSpeed(speed, shootingSpeed, cooldown);
+    }
 }

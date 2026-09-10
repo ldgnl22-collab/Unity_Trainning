@@ -15,7 +15,7 @@ public class PlayerWeapon : MonoBehaviour
     [SerializeField] private FlameEffect _flameEffect;
     [SerializeField] private FlameEffect _bulletImpactPrefab;
 
-    [field: SerializeField] public float _shootingSpeed { get; set; } = 0.3f;
+    [field: SerializeField] public float _shootingSpeed { get; set; } = 0.5f;
 
     private int currentBulletCount;
     private float _coolTime;
@@ -27,11 +27,6 @@ public class PlayerWeapon : MonoBehaviour
     // 30 발 다쏘면 총 안쏴짐
     // R 리로드 버튼 눌러야 다시 30발 참
     // 리로드 할수 있는 탄환은 무제한.
-
-    public void SetShootingSpeed(float speed)
-    {
-        _shootingSpeed = speed;
-    }
     
     private void Awake() => CacheComponents();
     
