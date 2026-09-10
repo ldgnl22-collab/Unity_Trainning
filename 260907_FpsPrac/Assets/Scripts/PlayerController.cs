@@ -11,7 +11,7 @@ public class PlayerController : MonoBehaviour, IInteractor
     
     private PlayerWeapon _weapon;
     private PlayerMovement _movement;
-    [SerializeField] private HandBomb _handBomb;
+    [SerializeField] private Grenade _handBomb;
     private Transform _cameraTransform;
     
     private IInteractable _targetInteractable;
@@ -50,7 +50,7 @@ public class PlayerController : MonoBehaviour, IInteractor
 
     private void CacheComponents()
     {
-        _handBomb = GetComponent<HandBomb>();
+        _handBomb = GetComponent<Grenade>();
         _movement = GetComponent<PlayerMovement>();
         _weapon = GetComponentInChildren<PlayerWeapon>();
         _cameraTransform = Camera.main.transform;

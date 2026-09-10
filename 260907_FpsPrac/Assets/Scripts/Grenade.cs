@@ -2,7 +2,7 @@ using System.Collections;
 using System.Collections.Generic;
 using UnityEngine;
 
-public class HandBomb : MonoBehaviour, IItem
+public class Grenade : MonoBehaviour, IItem
 {
     Rigidbody rb;
     PlayerMovement player;
