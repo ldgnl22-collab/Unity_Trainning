@@ -15,7 +15,7 @@ public class PlayerMovement : MonoBehaviour, IUseItem
     [SerializeField] private float _maxPitch;
     [SerializeField] private PlayerWeapon _weapon;
     [SerializeField] private SteamPack _steamPack;
-    [SerializeField] private HandBomb _handBomb;
+    [SerializeField] private Grenade _handBomb;
     
     [SerializeField] LayerMask _groundMask;
 

@@ -47,6 +47,7 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: 7791bb8d5fbb07f4eb1ce40f088f79aa, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
+  <_itemCoolTime>k__BackingField: 10
   _playerWeapon: {fileID: 0}
 --- !u!65 &6045693044815491749
 BoxCollider:

@@ -19,6 +19,9 @@ public class PlayerWeapon : MonoBehaviour
 
     private int currentBulletCount;
     private float _coolTime;
+    
+    public int CurrentMagazine => currentBulletCount;
+    public int MaxMagazine => maxBulletCount;
     private bool _hasBullets => currentBulletCount > 0;
     private bool _isPressedFire => Input.GetKey(_fireKey);
     private bool _isPressedReload => Input.GetKeyDown(_reloadKey);
