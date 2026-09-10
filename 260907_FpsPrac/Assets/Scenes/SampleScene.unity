@@ -698,7 +698,7 @@ PrefabInstance:
     m_Modifications:
     - target: {fileID: 2271906512748000826, guid: 824878ecf3b7edc46957531d86ae3bec, type: 3}
       propertyPath: <_shootingSpeed>k__BackingField
-      value: 0.3
+      value: 0.5
       objectReference: {fileID: 0}
     - target: {fileID: 4051753601630814382, guid: 824878ecf3b7edc46957531d86ae3bec, type: 3}
       propertyPath: _steamPack
