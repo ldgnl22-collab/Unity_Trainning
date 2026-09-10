@@ -2,15 +2,18 @@ using System.Collections;
 using System.Collections.Generic;
 using UnityEngine;
 
-public class Grenade : MonoBehaviour, IItem
+public class Grenade : MonoBehaviour
 {
     Rigidbody rb;
     PlayerMovement player;
+    
+    GameObject _grenadeInstance;
+
+    private Vector3 _throwPos;
 
     private void Start()
     {
         Init();
-        
     }
     
     public void UseItem(IUseItem owner)
@@ -19,11 +22,12 @@ public class Grenade : MonoBehaviour, IItem
         
         player = (PlayerMovement)owner;
         
-        rb = player.GetComponent<Rigidbody>();
-        rb.AddForce(gameObject.transform.forward, ForceMode.Impulse);
+        _grenadeInstance = Instantiate(gameObject, player._grenadePos.position, Quaternion.identity);
+        _grenadeInstance.GetComponent<Rigidbody>().AddForce(player.transform.forward, ForceMode.Impulse);
     }
 
     private void Init()
     {
+        rb = gameObject.GetComponent<Rigidbody>();
     }
 }

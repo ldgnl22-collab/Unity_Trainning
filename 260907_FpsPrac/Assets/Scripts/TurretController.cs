@@ -1,6 +1,7 @@
 using System.Collections;
 using System.Collections.Generic;
 using UnityEngine;
+using UnityEngine.UI;
 
 
 public class TurretController : MonoBehaviour, IDamageable
@@ -18,6 +19,8 @@ public class TurretController : MonoBehaviour, IDamageable
     [SerializeField] private int _bulletDamage;
     [SerializeField] private float _bulletSpeed;
     [SerializeField] private float _bulletDestroyDelay;
+
+    [SerializeField] private Canvas _hpBar;
     
     private float _currentCoolDown;
     private Transform _playerTransform;
@@ -34,6 +37,7 @@ public class TurretController : MonoBehaviour, IDamageable
 
     private void Awake()
     {
+        Init();
         Debug.Log("<color=red> 컬러로 </color>");
         CacheComponents();
         // _sphereCollider = GetComponent<SphereCollider>();
@@ -42,6 +46,7 @@ public class TurretController : MonoBehaviour, IDamageable
     private void OnTriggerEnter(Collider other)
     {
         if (!_targetLayer.Contains(other)) return;
+        _hpBar.enabled = true;
 
         _playerTransform = other.gameObject.transform;
     }
@@ -49,6 +54,7 @@ public class TurretController : MonoBehaviour, IDamageable
     private void OnTriggerExit(Collider other)
     {
         if (!_targetLayer.Contains(other)) return;
+        _hpBar.enabled = false;
         
         _playerTransform = null;
     }
@@ -65,6 +71,8 @@ public class TurretController : MonoBehaviour, IDamageable
     {
         _sphereCollider = GetComponent<SphereCollider>();
     }
+    
+    
 
     private void Fire()
     {
@@ -77,6 +85,7 @@ public class TurretController : MonoBehaviour, IDamageable
             );
         
         _headTransform.LookAt(look);
+        _hpBar.transform.forward = (-(_headTransform.forward));
 
         if (!_isReadyToFire) return;
         
@@ -142,5 +151,10 @@ public class TurretController : MonoBehaviour, IDamageable
     public void TakeDamage(int damage)
     {
         
+    }
+
+    private void Init()
+    {
+        _hpBar.enabled = false;
     }
 }

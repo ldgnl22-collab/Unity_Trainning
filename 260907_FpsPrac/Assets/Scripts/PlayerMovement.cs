@@ -15,16 +15,18 @@ public class PlayerMovement : MonoBehaviour, IUseItem
     [SerializeField] private float _maxPitch;
     [SerializeField] private PlayerWeapon _weapon;
     [SerializeField] private SteamPack _steamPack;
-    [SerializeField] private Grenade _handBomb;
+    [SerializeField] private Grenade _grenade;
+    [field: SerializeField] public Transform _grenadePos { get; set; }
     
     [SerializeField] LayerMask _groundMask;
-
-    private KeyCode _throwHandBomb = KeyCode.Space;
-    private bool _isThrowHandBomb => Input.GetKeyDown(_throwHandBomb);
     
-    private KeyCode _jump = KeyCode.Space;
-    private bool _isJump => Input.GetKeyDown(_jump);
-    private bool _isPossibleJump;
+    // private KeyCode _jump = KeyCode.Space;
+    // private bool _isJump => Input.GetKeyDown(_jump);
+    // private bool _isPossibleJump;
+    
+    private KeyCode _throwGrenade = KeyCode.Space;
+    private bool _isReadyGrenade => Input.GetKeyDown(_throwGrenade);
+    private bool _isThrowGrenade => Input.GetKeyUp(_throwGrenade);
 
     private float _checkGroundRange;
     private float _pitch;
@@ -63,12 +65,19 @@ public class PlayerMovement : MonoBehaviour, IUseItem
             Debug.Log($"{_durationCool} 초 동안 지속중");
         }
     }
-
-    public void ThrowHandBomb()
+    
+    public void UseGrenade()
     {
-        if (!_isThrowHandBomb) return;
+        if (_isReadyGrenade)
+        {
+            Debug.Log("투척 준비");
+        }
         
-        _handBomb.UseItem(this);
+        if (_isThrowGrenade)
+        {
+            _grenade.UseItem(this);
+            Debug.Log("투척");
+        }
     }
 
     public void Rotate()
@@ -102,34 +111,34 @@ public class PlayerMovement : MonoBehaviour, IUseItem
         _rigidbody.velocity = newVelocity;
     }
 
-    public void Jump()
-    {
-        if (_isJump && _isPossibleJump)
-        {
-            _rigidbody.AddForce(transform.up * _jumpForce, ForceMode.Impulse);
-        }
-    }
-    
-    public void PossibleJump()
-    {
-        Ray ray =  new Ray(transform.position, Vector3.down);
-        RaycastHit hit;
-
-        if (Physics.Raycast(ray, out hit, _checkGroundRange))
-        {
-            if (!_groundMask.Contains(hit.collider.gameObject.layer))
-            {
-                _isPossibleJump = false;
-                return;
-            }
-
-            Vector3 newVelocity = new Vector3(1f, 0f, 1f) * _moveSpeed;
-            
-            _rigidbody.velocity = newVelocity;
-            
-            _isPossibleJump = true;
-        }
-    }
+    // public void Jump()
+    // {
+    //     if (_isJump && _isPossibleJump)
+    //     {
+    //         _rigidbody.AddForce(transform.up * _jumpForce, ForceMode.Impulse);
+    //     }
+    // }
+    //
+    // public void PossibleJump()
+    // {
+    //     Ray ray =  new Ray(transform.position, Vector3.down);
+    //     RaycastHit hit;
+    //
+    //     if (Physics.Raycast(ray, out hit, _checkGroundRange))
+    //     {
+    //         if (!_groundMask.Contains(hit.collider.gameObject.layer))
+    //         {
+    //             _isPossibleJump = false;
+    //             return;
+    //         }
+    //
+    //         Vector3 newVelocity = new Vector3(1f, 0f, 1f) * _moveSpeed;
+    //         
+    //         _rigidbody.velocity = newVelocity;
+    //         
+    //         _isPossibleJump = true;
+    //     }
+    // }
 
     private Vector3 ReadRotateInput()
     {

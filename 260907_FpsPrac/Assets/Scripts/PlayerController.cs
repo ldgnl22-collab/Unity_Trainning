@@ -3,7 +3,7 @@ using System.Collections.Generic;
 using UnityEngine;
 
 // [RequireComponent(typeof(Rigidbody))] // 리지드바디 강제 추가
-public class PlayerController : MonoBehaviour, IInteractor
+public class PlayerController : MonoBehaviour, IInteractor, IUseItem
 {
     [SerializeField] private Transform _cameraPivot;
     [SerializeField] private float _detectionRange;
@@ -11,7 +11,6 @@ public class PlayerController : MonoBehaviour, IInteractor
     
     private PlayerWeapon _weapon;
     private PlayerMovement _movement;
-    [SerializeField] private Grenade _handBomb;
     private Transform _cameraTransform;
     
     private IInteractable _targetInteractable;
@@ -33,9 +32,9 @@ public class PlayerController : MonoBehaviour, IInteractor
     
     private void Update()
     {
-        _movement.Jump();
+        // _movement.Jump();
         _movement.Rotate();
-        _movement.ThrowHandBomb();
+        _movement.UseGrenade();
         _weapon.Fire();
         _weapon.Reload();
         DetectInteractable();
@@ -50,7 +49,6 @@ public class PlayerController : MonoBehaviour, IInteractor
 
     private void CacheComponents()
     {
-        _handBomb = GetComponent<Grenade>();
         _movement = GetComponent<PlayerMovement>();
         _weapon = GetComponentInChildren<PlayerWeapon>();
         _cameraTransform = Camera.main.transform;

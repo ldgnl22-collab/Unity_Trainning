@@ -179,39 +179,6 @@ PrefabInstance:
     m_AddedGameObjects: []
     m_AddedComponents: []
   m_SourcePrefab: {fileID: 100100000, guid: 51bc9c0f61ed65f479a22d79bf7ad995, type: 3}
---- !u!1 &87727429 stripped
-GameObject:
-  m_CorrespondingSourceObject: {fileID: 5365266861829561380, guid: 824878ecf3b7edc46957531d86ae3bec, type: 3}
-  m_PrefabInstance: {fileID: 8083240992760829191}
-  m_PrefabAsset: {fileID: 0}
---- !u!114 &87727435
-MonoBehaviour:
-  m_ObjectHideFlags: 0
-  m_CorrespondingSourceObject: {fileID: 0}
-  m_PrefabInstance: {fileID: 0}
-  m_PrefabAsset: {fileID: 0}
-  m_GameObject: {fileID: 87727429}
-  m_Enabled: 1
-  m_EditorHideFlags: 0
-  m_Script: {fileID: 11500000, guid: 33064958cb9161847ad9738aa745f266, type: 3}
-  m_Name: 
-  m_EditorClassIdentifier: 
-  <HP>k__BackingField: 50
-  <ATK>k__BackingField: 0
-  <DEF>k__BackingField: 0
---- !u!114 &87727437
-MonoBehaviour:
-  m_ObjectHideFlags: 0
-  m_CorrespondingSourceObject: {fileID: 0}
-  m_PrefabInstance: {fileID: 0}
-  m_PrefabAsset: {fileID: 0}
-  m_GameObject: {fileID: 87727429}
-  m_Enabled: 1
-  m_EditorHideFlags: 0
-  m_Script: {fileID: 11500000, guid: 36b55cacdb3eecc4b829fcfeeaf225bf, type: 3}
-  m_Name: 
-  m_EditorClassIdentifier: 
-  _magazine: {fileID: 690961025}
 --- !u!1001 &102022060
 PrefabInstance:
   m_ObjectHideFlags: 0
@@ -400,6 +367,10 @@ PrefabInstance:
       propertyPath: m_Name
       value: Turret (1)
       objectReference: {fileID: 0}
+    - target: {fileID: 3149556723032470701, guid: daaa009a736b9a643bc31d0462e1f8c2, type: 3}
+      propertyPath: _hpBar
+      value: 
+      objectReference: {fileID: 1844573537}
     m_RemovedComponents: []
     m_RemovedGameObjects: []
     m_AddedGameObjects: []
@@ -644,6 +615,11 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: aad842ddf67218a4daaaf48e0ea87703, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
+--- !u!4 &1062922800 stripped
+Transform:
+  m_CorrespondingSourceObject: {fileID: 9059743308412919360, guid: 824878ecf3b7edc46957531d86ae3bec, type: 3}
+  m_PrefabInstance: {fileID: 8083240992760829191}
+  m_PrefabAsset: {fileID: 0}
 --- !u!1001 &1127283290
 PrefabInstance:
   m_ObjectHideFlags: 0
@@ -890,13 +866,9 @@ PrefabInstance:
       value: Turret
       objectReference: {fileID: 0}
     - target: {fileID: 3149556723032470701, guid: daaa009a736b9a643bc31d0462e1f8c2, type: 3}
-      propertyPath: TargetLayer.m_Bits
-      value: 128
-      objectReference: {fileID: 0}
-    - target: {fileID: 3149556723032470701, guid: daaa009a736b9a643bc31d0462e1f8c2, type: 3}
-      propertyPath: _targetLayer.m_Bits
-      value: 128
-      objectReference: {fileID: 0}
+      propertyPath: _hpBar
+      value: 
+      objectReference: {fileID: 1844573537}
     m_RemovedComponents: []
     m_RemovedGameObjects: []
     m_AddedGameObjects: []
@@ -934,11 +906,11 @@ RectTransform:
   m_Children: []
   m_Father: {fileID: 1870734692}
   m_LocalEulerAnglesHint: {x: 0, y: 0, z: 0}
-  m_AnchorMin: {x: 0.5, y: 0.5}
-  m_AnchorMax: {x: 0.5, y: 0.5}
+  m_AnchorMin: {x: 0, y: 0.5}
+  m_AnchorMax: {x: 0, y: 0.5}
   m_AnchoredPosition: {x: 0, y: 0}
-  m_SizeDelta: {x: 1, y: 0.1}
-  m_Pivot: {x: 0.5, y: 0.5}
+  m_SizeDelta: {x: 0.76, y: 0.1}
+  m_Pivot: {x: 0, y: 0.5}
 --- !u!222 &1521416216
 CanvasRenderer:
   m_ObjectHideFlags: 0
@@ -1363,6 +1335,10 @@ PrefabInstance:
       propertyPath: m_Name
       value: Turret (2)
       objectReference: {fileID: 0}
+    - target: {fileID: 3149556723032470701, guid: daaa009a736b9a643bc31d0462e1f8c2, type: 3}
+      propertyPath: _hpBar
+      value: 
+      objectReference: {fileID: 1844573537}
     m_RemovedComponents: []
     m_RemovedGameObjects: []
     m_AddedGameObjects: []
@@ -1376,30 +1352,26 @@ PrefabInstance:
     serializedVersion: 3
     m_TransformParent: {fileID: 0}
     m_Modifications:
-    - target: {fileID: 2271906512748000826, guid: 824878ecf3b7edc46957531d86ae3bec, type: 3}
-      propertyPath: <_shootingSpeed>k__BackingField
-      value: 0.5
-      objectReference: {fileID: 0}
+    - target: {fileID: 238486696234770670, guid: 824878ecf3b7edc46957531d86ae3bec, type: 3}
+      propertyPath: _magazine
+      value: 
+      objectReference: {fileID: 690961025}
+    - target: {fileID: 4051753601630814382, guid: 824878ecf3b7edc46957531d86ae3bec, type: 3}
+      propertyPath: _grenade
+      value: 
+      objectReference: {fileID: 3779901489562139010, guid: 0faa99af9fcc53048ac236e3dc10d0db, type: 3}
     - target: {fileID: 4051753601630814382, guid: 824878ecf3b7edc46957531d86ae3bec, type: 3}
       propertyPath: _steamPack
       value: 
       objectReference: {fileID: 160162898}
     - target: {fileID: 4051753601630814382, guid: 824878ecf3b7edc46957531d86ae3bec, type: 3}
-      propertyPath: _attackDelay
-      value: 0.3
-      objectReference: {fileID: 0}
+      propertyPath: _grenadePos
+      value: 
+      objectReference: {fileID: 1062922800}
     - target: {fileID: 4051753601630814382, guid: 824878ecf3b7edc46957531d86ae3bec, type: 3}
-      propertyPath: _groundMask.m_Bits
-      value: 512
-      objectReference: {fileID: 0}
-    - target: {fileID: 4051753601630814382, guid: 824878ecf3b7edc46957531d86ae3bec, type: 3}
-      propertyPath: <_jumpForce>k__BackingField
-      value: 5
-      objectReference: {fileID: 0}
-    - target: {fileID: 4051753601630814382, guid: 824878ecf3b7edc46957531d86ae3bec, type: 3}
-      propertyPath: <_moveSpeed>k__BackingField
-      value: 5
-      objectReference: {fileID: 0}
+      propertyPath: <_grenadePos>k__BackingField
+      value: 
+      objectReference: {fileID: 1062922800}
     - target: {fileID: 5365266861829561380, guid: 824878ecf3b7edc46957531d86ae3bec, type: 3}
       propertyPath: m_Name
       value: Player
@@ -1447,13 +1419,7 @@ PrefabInstance:
     m_RemovedComponents: []
     m_RemovedGameObjects: []
     m_AddedGameObjects: []
-    m_AddedComponents:
-    - targetCorrespondingSourceObject: {fileID: 5365266861829561380, guid: 824878ecf3b7edc46957531d86ae3bec, type: 3}
-      insertIndex: 3
-      addedObject: {fileID: 87727435}
-    - targetCorrespondingSourceObject: {fileID: 5365266861829561380, guid: 824878ecf3b7edc46957531d86ae3bec, type: 3}
-      insertIndex: -1
-      addedObject: {fileID: 87727437}
+    m_AddedComponents: []
   m_SourcePrefab: {fileID: 100100000, guid: 824878ecf3b7edc46957531d86ae3bec, type: 3}
 --- !u!1660057539 &9223372036854775807
 SceneRoots:
