@@ -11,18 +11,18 @@ public class PlayerWeapon : MonoBehaviour
     [SerializeField] private KeyCode _reloadKey = KeyCode.R;
     [SerializeField] private float _range;
     [SerializeField] private int _damage;
-    [SerializeField] int maxBulletCount = 30;
+    [SerializeField] int _maxMagazine = 30;
     [SerializeField] private FlameEffect _flameEffect;
     [SerializeField] private FlameEffect _bulletImpactPrefab;
 
     [field: SerializeField] public float _shootingSpeed { get; set; } = 0.5f;
 
-    private int currentBulletCount;
+    private int _currentMagazine;
     private float _coolTime;
     
-    public int CurrentMagazine => currentBulletCount;
-    public int MaxMagazine => maxBulletCount;
-    private bool _hasBullets => currentBulletCount > 0;
+    public int CurrentMagazine => _currentMagazine;
+    public int MaxMagazine => _maxMagazine;
+    private bool _hasBullets => _currentMagazine > 0;
     private bool _isPressedFire => Input.GetKey(_fireKey);
     private bool _isPressedReload => Input.GetKeyDown(_reloadKey);
     
@@ -60,13 +60,13 @@ public class PlayerWeapon : MonoBehaviour
         
         if (!_isPressedFire) return;
         if (!WeaponCoolTime()) return;
-        if (currentBulletCount <= 0)
+        if (_currentMagazine <= 0)
         {
             Debug.Log("탄약이 부족합니다.");
             return;
         }
         
-        currentBulletCount--;
+        _currentMagazine--;
         _coolTime = 0f;
         PlayEffect();
 
@@ -74,9 +74,8 @@ public class PlayerWeapon : MonoBehaviour
         damageable.TakeDamage(_damage);
         
         Debug.Log($"Player : {damageable.GameObject.name}에게 발사");
-        currentBulletCount--;
         
-        Debug.Log($"탄약 {currentBulletCount} 남음");
+        Debug.Log($"탄약 {_currentMagazine} 남음");
     }
 
     private void PlayEffect()
@@ -114,7 +113,7 @@ public class PlayerWeapon : MonoBehaviour
     {
         if (!_isPressedReload) return;
         
-        currentBulletCount = maxBulletCount;
+        _currentMagazine = _maxMagazine;
     }
 
     private bool TryGetDamageable(out IDamageable damageable)
@@ -142,6 +141,6 @@ public class PlayerWeapon : MonoBehaviour
     private void Init()
     {
         _coolTime = 0f;
-        currentBulletCount = maxBulletCount;
+        _currentMagazine = _maxMagazine;
     }
 }
