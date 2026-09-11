@@ -16,7 +16,7 @@ public class PlayerMovement : MonoBehaviour, IUseItem
     [SerializeField] private PlayerWeapon _weapon;
     [SerializeField] private SteamPack _steamPack;
     [SerializeField] private Grenade _grenade;
-    [field: SerializeField] public Transform _grenadePos { get; set; }
+    [field: SerializeField] public Transform _grenadePos { get; }
     
     [SerializeField] LayerMask _groundMask;
     

@@ -40,7 +40,6 @@ public class Grenade : MonoBehaviour, IItem
                 
                 Debug.Log($"{_throwReadyCooldown}");
 
-                rb.useGravity = false;
                 _grenadeInstance.transform.position = _throwPos;
             }
         }
@@ -50,7 +49,6 @@ public class Grenade : MonoBehaviour, IItem
             Debug.Log("UseItem: 투척");
             //_grenadeInstance = Instantiate(gameObject, player._grenadePos.position, Quaternion.identity);
             
-            rb.useGravity = true;
             rb.AddForce(
                 player._cameraPivot.forward * 
                 (_grenadeSpeed * _throwReadyCooldown), ForceMode.Impulse);
@@ -65,7 +63,7 @@ public class Grenade : MonoBehaviour, IItem
 
     private void CacheComponents()
     {
-        _grenadeInstance = Instantiate(gameObject, player._grenadePos.position, Quaternion.identity);
+        //_grenadeInstance = Instantiate(gameObject, _grenadePos.position, Quaternion.identity);
         rb = _grenadeInstance.GetComponent<Rigidbody>();
     }
 }

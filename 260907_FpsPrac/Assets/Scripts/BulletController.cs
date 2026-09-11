@@ -2,10 +2,13 @@ using System.Collections;
 using System.Collections.Generic;
 using UnityEngine;
 
-public class BulletController : MonoBehaviour
+public class BulletController : MonoBehaviour, IPoolable
 {
     private int _damage;
     private float _speed;
+    
+    public ObjectPool Pool { get; }
+    public Transform tr { get => transform; }
     
     // 어딘가에 부딪히면
     private void OnTriggerEnter(Collider other)
@@ -22,6 +25,11 @@ public class BulletController : MonoBehaviour
     
 
     private void Update() => MoveForward();
+    
+    public void ReturnToPool()
+    {
+        
+    }
     
     // 앞으로 전진
     private void MoveForward()

@@ -1,0 +1,41 @@
+using System.Collections;
+using System.Collections.Generic;
+using UnityEngine;
+
+public class ObjectPool : MonoBehaviour
+{
+    [SerializeField] private GameObject _prefab;
+    [field: SerializeField] public int Size { get; private set; }
+    private IPoolable[] _pool;
+    public int Count { get; private set; }
+    
+    public bool IsEmpty => Count == 0;
+
+    private void Awake() => Init();
+
+    public IPoolable Take()
+    {
+        if(IsEmpty) return null;
+
+        Count--;
+        IPoolable poolable = _pool[Count];
+        _pool[Count] = null;
+        // 여기서 활성화 시켜도 상관 없음.
+        
+        return poolable;
+    }
+    
+    private void Init()
+    {
+        _pool = new IPoolable[Size];
+
+        for (int i = 0; i < _pool.Length; i++)
+        {
+            GameObject go = Instantiate(_prefab);
+            _pool[i] = go.GetComponent<IPoolable>();
+            go.SetActive(false);
+        }
+        
+        Count = Size;
+    }
+}

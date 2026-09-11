@@ -6,6 +6,7 @@ using UnityEngine.UI;
 
 public class TurretController : MonoBehaviour, IDamageable
 {
+    [SerializeField] private ObjectPool _bulletPool;
     [SerializeField] private LayerMask _targetLayer;
     private int _playerLayer = (1 << 7);
 
@@ -101,15 +102,28 @@ public class TurretController : MonoBehaviour, IDamageable
         _currentCoolDown += Time.deltaTime;
     }
 
+    
+    
     private void SpawnBullet()
     {
-        BulletController bullet = Instantiate(
-            _bulletPrefab,
-            _muzzlePoint.position,
-            _muzzlePoint.rotation
-        );
+        // 1. 얻어오기
+        IPoolable bullet = _bulletPool.Take();
         
-        bullet.SetData(_bulletDamage, _bulletSpeed, _bulletDestroyDelay);
+        // 2. Transform.position, rotaion 설정
+        bullet.tr.position = _muzzlePoint.position;
+        bullet.tr.rotation = _muzzlePoint.rotation;
+        
+        // 3. 활성화
+        bullet.tr.gameObject.SetActive(true);
+        
+        // BulletController bullet = Instantiate(
+        //     _bulletPrefab,
+        //     _muzzlePoint.position,
+        //     _muzzlePoint.rotation
+        // );
+        
+        // 겟 컴포넌트는 비효율적이라 캐스팅방식으로
+        (bullet as BulletController).SetData(_bulletDamage, _bulletSpeed, _bulletDestroyDelay);
     }
 
     private void Rotate()

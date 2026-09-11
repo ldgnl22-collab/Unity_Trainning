@@ -5,7 +5,6 @@ using UnityEngine;
 public class GameManager : SingletonBehaviour<GameManager>
 {
     public bool IsGameRunning { get; private set; }
-    public static GameManager Instance;
 
     private void Awake() => SetSingleton();
     //private void Start() => Run();

@@ -32,7 +32,7 @@ public class PlayerController : MonoBehaviour, IInteractor, IUseItem
     
     private void Update()
     {
-        if (!GameManager.Instance.IsGameRunning) return;
+        //if (!GameManager.Instance.IsGameRunning) return;
             
         // _movement.Jump();
         _movement.Rotate();
