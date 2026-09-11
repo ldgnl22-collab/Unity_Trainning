@@ -24,6 +24,15 @@ public class ObjectPool : MonoBehaviour
         
         return poolable;
     }
+
+    public void Return(IPoolable poolable)
+    {
+        if (Size <= Count) return;
+        
+        _pool[Count] = poolable;
+        poolable.tr.gameObject.SetActive(false);
+        Count++;
+    }
     
     private void Init()
     {
@@ -33,6 +42,7 @@ public class ObjectPool : MonoBehaviour
         {
             GameObject go = Instantiate(_prefab);
             _pool[i] = go.GetComponent<IPoolable>();
+            _pool[i].Pool = this;
             go.SetActive(false);
         }
         

@@ -32,6 +32,8 @@ public class Grenade : MonoBehaviour, IItem
         
         player = (PlayerMovement)owner;
         
+//        _grenadeInstance = Instantiate(rb.gameObject, player._grenadePos.position, Quaternion.identity);
+        
         if (player._isReadyGrenade)
         {
             if (_throwReadyMaxTime > _throwReadyCooldown)
@@ -39,7 +41,7 @@ public class Grenade : MonoBehaviour, IItem
                 _throwReadyCooldown += Time.deltaTime;
                 
                 Debug.Log($"{_throwReadyCooldown}");
-
+                
                 _grenadeInstance.transform.position = _throwPos;
             }
         }
@@ -49,10 +51,10 @@ public class Grenade : MonoBehaviour, IItem
             Debug.Log("UseItem: 투척");
             //_grenadeInstance = Instantiate(gameObject, player._grenadePos.position, Quaternion.identity);
             
-            rb.AddForce(
-                player._cameraPivot.forward * 
-                (_grenadeSpeed * _throwReadyCooldown), ForceMode.Impulse);
-            _throwReadyCooldown = 0f;
+            // _grenadeInstance.AddForce(
+            //     player._cameraPivot.forward * 
+            //     (_grenadeSpeed * _throwReadyCooldown), ForceMode.Impulse);
+            // _throwReadyCooldown = 0f;
         }
     }
 
@@ -63,7 +65,6 @@ public class Grenade : MonoBehaviour, IItem
 
     private void CacheComponents()
     {
-        //_grenadeInstance = Instantiate(gameObject, _grenadePos.position, Quaternion.identity);
-        rb = _grenadeInstance.GetComponent<Rigidbody>();
+        rb = gameObject.GetComponent<Rigidbody>();
     }
 }

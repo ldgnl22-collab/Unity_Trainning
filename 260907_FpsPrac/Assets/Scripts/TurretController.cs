@@ -19,7 +19,7 @@ public class TurretController : MonoBehaviour, IDamageable
     [SerializeField] private BulletController _bulletPrefab;
     [SerializeField] private int _bulletDamage;
     [SerializeField] private float _bulletSpeed;
-    [SerializeField] private float _bulletDestroyDelay;
+    [SerializeField] private float _returnDelay;
 
     [SerializeField] private Canvas _hpBar;
     
@@ -123,7 +123,7 @@ public class TurretController : MonoBehaviour, IDamageable
         // );
         
         // 겟 컴포넌트는 비효율적이라 캐스팅방식으로
-        (bullet as BulletController).SetData(_bulletDamage, _bulletSpeed, _bulletDestroyDelay);
+        (bullet as BulletController).SetData(_bulletDamage, _bulletSpeed, _returnDelay);
     }
 
     private void Rotate()
