@@ -47,6 +47,7 @@ public class PlayerMovement : MonoBehaviour, IUseItem
     private void Update()
     {
         EndSteamPack();
+        UseGrenade();
     }
 
     private void EndSteamPack()

@@ -17,9 +17,13 @@ public class Grenade : MonoBehaviour, IItem
     [field: SerializeField] public float _throwDistance { get; private set; } = 30f;
     [field: SerializeField] public float _grenadeSpeed { get; set; } = 10f;
 
+    private void Awake()
+    {
+        CacheComponents();
+    }
+
     private void Start()
     {
-        Init();
     }
     
     public void UseItem(IUseItem owner)
@@ -35,23 +39,33 @@ public class Grenade : MonoBehaviour, IItem
                 _throwReadyCooldown += Time.deltaTime;
                 
                 Debug.Log($"{_throwReadyCooldown}");
+
+                rb.useGravity = false;
+                _grenadeInstance.transform.position = _throwPos;
             }
         }
 
         if (player._isThrowGrenade)
         {
             Debug.Log("UseItem: 투척");
-            _grenadeInstance = Instantiate(gameObject, player._grenadePos.position, Quaternion.identity);
-            _grenadeInstance.GetComponent<Rigidbody>().AddForce(
+            //_grenadeInstance = Instantiate(gameObject, player._grenadePos.position, Quaternion.identity);
+            
+            rb.useGravity = true;
+            rb.AddForce(
                 player._cameraPivot.forward * 
                 (_grenadeSpeed * _throwReadyCooldown), ForceMode.Impulse);
             _throwReadyCooldown = 0f;
         }
+    }
+
+    private void Explosion()
+    {
         
     }
 
-    private void Init()
+    private void CacheComponents()
     {
-        rb = gameObject.GetComponent<Rigidbody>();
+        _grenadeInstance = Instantiate(gameObject, player._grenadePos.position, Quaternion.identity);
+        rb = _grenadeInstance.GetComponent<Rigidbody>();
     }
 }

@@ -32,9 +32,10 @@ public class PlayerController : MonoBehaviour, IInteractor, IUseItem
     
     private void Update()
     {
+        if (!GameManager.Instance.IsGameRunning) return;
+            
         // _movement.Jump();
         _movement.Rotate();
-        _movement.UseGrenade();
         _weapon.Fire();
         _weapon.Reload();
         DetectInteractable();
