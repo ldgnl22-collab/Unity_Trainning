@@ -2,7 +2,7 @@ using System.Collections;
 using System.Collections.Generic;
 using UnityEngine;
 
-public class Grenade : MonoBehaviour
+public class Grenade : MonoBehaviour, IItem
 {
     Rigidbody rb;
     PlayerMovement player;
@@ -10,6 +10,12 @@ public class Grenade : MonoBehaviour
     GameObject _grenadeInstance;
 
     private Vector3 _throwPos;
+
+    private float _throwForce;
+    private float _throwReadyCooldown;
+    [field: SerializeField] public float _throwReadyMaxTime { get; private set; } = 1f;
+    [field: SerializeField] public float _throwDistance { get; private set; } = 30f;
+    [field: SerializeField] public float _grenadeSpeed { get; set; } = 10f;
 
     private void Start()
     {
@@ -22,8 +28,26 @@ public class Grenade : MonoBehaviour
         
         player = (PlayerMovement)owner;
         
-        _grenadeInstance = Instantiate(gameObject, player._grenadePos.position, Quaternion.identity);
-        _grenadeInstance.GetComponent<Rigidbody>().AddForce(player.transform.forward, ForceMode.Impulse);
+        if (player._isReadyGrenade)
+        {
+            if (_throwReadyMaxTime > _throwReadyCooldown)
+            {
+                _throwReadyCooldown += Time.deltaTime;
+                
+                Debug.Log($"{_throwReadyCooldown}");
+            }
+        }
+
+        if (player._isThrowGrenade)
+        {
+            Debug.Log("UseItem: 투척");
+            _grenadeInstance = Instantiate(gameObject, player._grenadePos.position, Quaternion.identity);
+            _grenadeInstance.GetComponent<Rigidbody>().AddForce(
+                player._cameraPivot.forward * 
+                (_grenadeSpeed * _throwReadyCooldown), ForceMode.Impulse);
+            _throwReadyCooldown = 0f;
+        }
+        
     }
 
     private void Init()

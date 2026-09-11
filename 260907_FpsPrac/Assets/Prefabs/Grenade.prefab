@@ -97,6 +97,9 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: 668fb524f78597c468a9d1586e07c29a, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
+  <_throwReadyMaxTime>k__BackingField: 1
+  <_throwDistance>k__BackingField: 30
+  <_grenadeSpeed>k__BackingField: 10
 --- !u!1001 &8695134342781629647
 PrefabInstance:
   m_ObjectHideFlags: 0

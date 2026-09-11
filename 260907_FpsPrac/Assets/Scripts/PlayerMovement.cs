@@ -9,7 +9,7 @@ public class PlayerMovement : MonoBehaviour, IUseItem
     [field: SerializeField] public float _moveSpeed { get; set; } = 5f;
     [field: SerializeField] public float _jumpForce { get; set; } = 5f;
 
-    [SerializeField] private Transform _cameraPivot;
+    [field: SerializeField] public Transform _cameraPivot { get; private set; }
     [SerializeField] private float _mouseSensitivity;
     [SerializeField] private float _minPitch;
     [SerializeField] private float _maxPitch;
@@ -25,17 +25,20 @@ public class PlayerMovement : MonoBehaviour, IUseItem
     // private bool _isPossibleJump;
     
     private KeyCode _throwGrenade = KeyCode.Space;
-    private bool _isReadyGrenade => Input.GetKeyDown(_throwGrenade);
-    private bool _isThrowGrenade => Input.GetKeyUp(_throwGrenade);
+    public bool _isReadyGrenade => Input.GetKey(_throwGrenade);
+    public bool _isThrowGrenade => Input.GetKeyUp(_throwGrenade);
 
     private float _checkGroundRange;
     private float _pitch;
     private Rigidbody _rigidbody;
     
+    // 스팀팩
     public bool _isSteamPack;
     private float _durationCool;
     private float _duration;
     private bool _isTimer;
+
+    private float _grenadeDistanceTimer;
 
     private void Awake() => CacheComponents();
 
@@ -68,16 +71,7 @@ public class PlayerMovement : MonoBehaviour, IUseItem
     
     public void UseGrenade()
     {
-        if (_isReadyGrenade)
-        {
-            Debug.Log("투척 준비");
-        }
-        
-        if (_isThrowGrenade)
-        {
-            _grenade.UseItem(this);
-            Debug.Log("투척");
-        }
+        _grenade.UseItem(this);
     }
 
     public void Rotate()
