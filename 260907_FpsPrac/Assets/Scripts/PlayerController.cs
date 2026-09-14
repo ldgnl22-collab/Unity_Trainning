@@ -1,14 +1,17 @@
 using System.Collections;
 using System.Collections.Generic;
 using UnityEngine;
+using System;
 
 // [RequireComponent(typeof(Rigidbody))] // 리지드바디 강제 추가
-public class PlayerController : MonoBehaviour, IInteractor, IUseItem
+public class PlayerController : MonoBehaviour, IInteractor, IUseItem, IDamageable
 {
     [SerializeField] private Transform _cameraPivot;
     [SerializeField] private float _detectionRange;
     [SerializeField] private KeyCode _interactionKey =  KeyCode.E;
-    
+
+    private PlayerHpBar _playerHpBar;
+    private PlayerStat _playerStat;
     private PlayerWeapon _weapon;
     private PlayerMovement _movement;
     private Transform _cameraTransform;
@@ -21,8 +24,14 @@ public class PlayerController : MonoBehaviour, IInteractor, IUseItem
     
     public GameObject GameObject { get => gameObject; }
 
+    public event Action<int> OnUpdateHp;
+
     private void Awake() => CacheComponents();
-    
+
+    private void OnEnable()
+    {
+    }
+
     private void Start() => LockCursor();
 
     private void FixedUpdate()
@@ -48,10 +57,16 @@ public class PlayerController : MonoBehaviour, IInteractor, IUseItem
         SetWeaponTransform();
     }
 
+    private void OnDisable()
+    {
+    }
+
     private void CacheComponents()
     {
         _movement = GetComponent<PlayerMovement>();
         _weapon = GetComponentInChildren<PlayerWeapon>();
+        _playerStat = GetComponentInChildren<PlayerStat>();
+        _playerHpBar = GetComponentInChildren<PlayerHpBar>();
         _cameraTransform = Camera.main.transform;
     }
 
@@ -122,5 +137,10 @@ public class PlayerController : MonoBehaviour, IInteractor, IUseItem
     public void AddMoveSpeed(float speed, float shootingSpeed, float cooldown)
     {
         _movement.AddSpeed(speed, shootingSpeed, cooldown);
+    }
+    
+    public void TakeDamage(int damage)
+    {
+        _playerStat.Damage(damage);
     }
 }

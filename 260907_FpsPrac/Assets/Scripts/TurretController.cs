@@ -25,7 +25,7 @@ public class TurretController : MonoBehaviour, IDamageable
     
     private float _currentCoolDown;
     private Transform _playerTransform;
-    private int _hp = 10;
+    private int _hp = 20;
     
     // private bool _isPlayerInTrigger => _playerTransform != null;
     private bool _isPlayerInTrigger { get { return _playerTransform != null; } }
@@ -73,8 +73,6 @@ public class TurretController : MonoBehaviour, IDamageable
         _sphereCollider = GetComponent<SphereCollider>();
     }
     
-    
-
     private void Fire()
     {
         if (!_isPlayerInSight || !_isPlayerInTrigger) return;
@@ -101,8 +99,6 @@ public class TurretController : MonoBehaviour, IDamageable
         
         _currentCoolDown += Time.deltaTime;
     }
-
-    
     
     private void SpawnBullet()
     {
@@ -164,7 +160,7 @@ public class TurretController : MonoBehaviour, IDamageable
 
     public void TakeDamage(int damage)
     {
-        
+        _hp -= damage;
     }
 
     private void Init()

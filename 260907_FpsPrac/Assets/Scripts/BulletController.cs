@@ -13,12 +13,14 @@ public class BulletController : MonoBehaviour, IPoolable
     public Transform tr { get => transform; }
     
     // 어딘가에 부딪히면
+    // 레이어로 수정 필요
     private void OnTriggerEnter(Collider other)
     {
         if (other.CompareTag("Player"))
         {
             // TODO: 데미지 추가
             Debug.Log("플레이어 맞음");
+            other.GetComponent<IDamageable>().TakeDamage(_damage);
         }
 
         Pool.Return(this);

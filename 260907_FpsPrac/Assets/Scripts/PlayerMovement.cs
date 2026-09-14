@@ -1,3 +1,4 @@
+using System;
 using System.Collections;
 using System.Collections.Generic;
 using UnityEngine;
@@ -27,7 +28,6 @@ public class PlayerMovement : MonoBehaviour, IUseItem
     private KeyCode _throwGrenade = KeyCode.Space;
     public bool _isReadyGrenade => Input.GetKey(_throwGrenade);
     public bool _isThrowGrenade => Input.GetKeyUp(_throwGrenade);
-    public int _grenadeCount;
 
     private float _checkGroundRange;
     private float _pitch;
@@ -42,7 +42,7 @@ public class PlayerMovement : MonoBehaviour, IUseItem
     // 수류탄
     public float _explosionTiming { get; private set; } = 5f;
     public float _explosionCooldawn { get; private set; } = 0f;
-    public bool _isThrowed { get; private set; }
+    public int _grenadeCount = 3;
 
     private void Awake() => CacheComponents();
 
@@ -52,6 +52,7 @@ public class PlayerMovement : MonoBehaviour, IUseItem
     {
         EndSteamPack();
         UseGrenade();
+        
     }
 
     private void EndSteamPack()
@@ -78,21 +79,49 @@ public class PlayerMovement : MonoBehaviour, IUseItem
     {
         _grenade.UseItem(this);
 
-        _isThrowed = Timer(_explosionCooldawn, _explosionTiming);
+        if (!_grenade._isTrowed) return;
+        
+        GrenadeBombTimer();
     }
 
-    public bool Timer(float cooldawn, float duration)
+    public void GrenadeBombTimer()
     {
-        cooldawn += Time.deltaTime;
-        Debug.Log($"{cooldawn} / {duration}");
+        _explosionCooldawn += Time.deltaTime;
 
-        if (cooldawn > duration)
+        if (_explosionCooldawn > _explosionTiming)
         {
-            return false;
+            // 터친다
+            Debug.Log("터짐");
+            _explosionCooldawn = 0f;
+            _grenade._isTrowed = false;
+
+            if (_grenade._grenadeInstance != null)
+            {
+                Collider[] cols = Physics.OverlapSphere(
+                    _grenade._grenadeInstance.transform.position,
+                    _grenade._explosionRadius);
+                
+                foreach (Collider col in cols)
+                {
+                    IDamageable damageable;
+
+                    damageable = col.GetComponent<IDamageable>();
+
+                    if (damageable != null)
+                    {
+                        damageable.TakeDamage(10);
+                    }
+                }
+            }
         }
-        else
+    }
+
+    private void OnDrawGizmos()
+    {
+        if (_grenade._grenadeInstance != null)
         {
-            return true;
+            Gizmos.color = Color.red;
+            Gizmos.DrawWireSphere(_grenade._grenadeInstance.transform.position, _grenade._explosionRadius);
         }
     }
 

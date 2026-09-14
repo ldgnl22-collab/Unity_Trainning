@@ -9,27 +9,22 @@ public class Grenade : MonoBehaviour, IItem
     Rigidbody rb;
     PlayerMovement _player;
     
-    GameObject _grenadeInstance;
-
-    private Vector3 _throwPos;
-
+    [field: SerializeField] public GameObject _grenadeInstance { get; private set; }
+    
     private float _throwForce;
     private float _throwReadyCooldown;
     [field: SerializeField] public float _throwReadyMaxTime { get; private set; } = 1f;
     [field: SerializeField] public float _throwDistance { get; private set; } = 30f;
-    [field: SerializeField] public float _grenadeSpeed { get; set; } = 10f;
-    [field: SerializeField] public float _explosionRadius  { get; set; } = 5f;
-    
-    [SerializeField] private GameObject _explosionEffect;
-    
+    [field: SerializeField] public float _grenadeSpeed { get; set; } = 15f;
+    [field: SerializeField] public float _explosionRadius  { get; private set; } = 5f;
+
+    [field: SerializeField] public GrenadeEffect _explosionEffect { get; set; }
+
+    public bool _isTrowed { get; set; } = false;
     
     private void Awake()
     {
         CacheComponents();
-    }
-
-    private void Start()
-    {
         Init();
     }
     
@@ -51,6 +46,7 @@ public class Grenade : MonoBehaviour, IItem
 
         if (_player._isThrowGrenade)
         {
+            _isTrowed = true;
             Debug.Log("UseItem: 투척");
             
             _grenadeInstance = Instantiate(gameObject, _player._grenadePos.position, Quaternion.identity);
@@ -59,26 +55,12 @@ public class Grenade : MonoBehaviour, IItem
                 _player._cameraPivot.forward * 
                  (_grenadeSpeed * _throwReadyCooldown), ForceMode.Impulse);
             
+            _explosionEffect.transform.position = _grenadeInstance.transform.position;
+            _explosionEffect.transform.rotation = _grenadeInstance.transform.rotation;
+            
              _throwReadyCooldown = 0f;
-
-             if (!_player._isThrowed)
-             {
-                 _explosionEffect.SetActive(true);
-                 Destroy(_grenadeInstance);
-                 Debug.Log($"터짐");
-             }
+             Destroy(_grenadeInstance, _player._explosionTiming);
         }
-    }
-
-    private void Explosion()
-    {
-        
-        Physics.OverlapSphere(transform.position, _explosionRadius);
-    }
-
-    private void OnDrawGizmos()
-    {
-        
     }
 
     private void CacheComponents()
@@ -87,7 +69,5 @@ public class Grenade : MonoBehaviour, IItem
 
     private void Init()
     {
-        _explosionEffect.SetActive(false);
-        // _explosionCooldawn = 0f;
     }
 }
