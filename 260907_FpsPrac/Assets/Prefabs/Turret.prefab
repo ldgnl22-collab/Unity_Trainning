@@ -102,7 +102,7 @@ MonoBehaviour:
   _bulletDamage: 10
   _bulletSpeed: 4
   _returnDelay: 5
-  _hpBar: {fileID: 4313059835620809443}
+  _hpBar: {fileID: 948702366576992127, guid: 875211cf1acd34a498a3ff88bc4f8754, type: 3}
 --- !u!1 &7911747025799195186
 GameObject:
   m_ObjectHideFlags: 0
@@ -312,10 +312,5 @@ PrefabInstance:
 --- !u!224 &3625858136748284128 stripped
 RectTransform:
   m_CorrespondingSourceObject: {fileID: 333481965936008572, guid: 875211cf1acd34a498a3ff88bc4f8754, type: 3}
-  m_PrefabInstance: {fileID: 3959058621044229532}
-  m_PrefabAsset: {fileID: 0}
---- !u!223 &4313059835620809443 stripped
-Canvas:
-  m_CorrespondingSourceObject: {fileID: 948702366576992127, guid: 875211cf1acd34a498a3ff88bc4f8754, type: 3}
   m_PrefabInstance: {fileID: 3959058621044229532}
   m_PrefabAsset: {fileID: 0}

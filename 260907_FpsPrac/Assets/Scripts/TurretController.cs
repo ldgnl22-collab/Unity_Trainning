@@ -21,7 +21,7 @@ public class TurretController : MonoBehaviour, IDamageable
     [SerializeField] private float _bulletSpeed;
     [SerializeField] private float _returnDelay;
 
-    [SerializeField] private Canvas _hpBar;
+    // [SerializeField] private Canvas _hpBar;
     
     private float _currentCoolDown;
     private Transform _playerTransform;
@@ -47,7 +47,7 @@ public class TurretController : MonoBehaviour, IDamageable
     private void OnTriggerEnter(Collider other)
     {
         if (!_targetLayer.Contains(other)) return;
-        _hpBar.enabled = true;
+        //_hpBar.enabled = true;
 
         _playerTransform = other.gameObject.transform;
     }
@@ -55,7 +55,7 @@ public class TurretController : MonoBehaviour, IDamageable
     private void OnTriggerExit(Collider other)
     {
         if (!_targetLayer.Contains(other)) return;
-        _hpBar.enabled = false;
+        //_hpBar.enabled = false;
         
         _playerTransform = null;
     }
@@ -84,7 +84,7 @@ public class TurretController : MonoBehaviour, IDamageable
             );
         
         _headTransform.LookAt(look);
-        _hpBar.transform.forward = (-(_headTransform.forward));
+        //_hpBar.transform.forward = (-(_headTransform.forward));
 
         if (!_isReadyToFire) return;
         
@@ -165,6 +165,6 @@ public class TurretController : MonoBehaviour, IDamageable
 
     private void Init()
     {
-        _hpBar.enabled = false;
+        //_hpBar.enabled = false;
     }
 }
