@@ -16,8 +16,6 @@ public class PlayerMovement : MonoBehaviour, IUseItem
     [SerializeField] private float _maxPitch;
     [SerializeField] private PlayerWeapon _weapon;
     [SerializeField] private SteamPack _steamPack;
-    [SerializeField] private Grenade _grenade;
-    [field: SerializeField] public Transform _grenadePos { get; private set; }
     
     [SerializeField] LayerMask _groundMask;
     
@@ -25,10 +23,6 @@ public class PlayerMovement : MonoBehaviour, IUseItem
     // private bool _isJump => Input.GetKeyDown(_jump);
     // private bool _isPossibleJump;
     
-    private KeyCode _throwGrenade = KeyCode.Space;
-    public bool _isReadyGrenade => Input.GetKey(_throwGrenade);
-    public bool _isThrowGrenade => Input.GetKeyUp(_throwGrenade);
-
     private float _checkGroundRange;
     private float _pitch;
     private Rigidbody _rigidbody;
@@ -39,10 +33,7 @@ public class PlayerMovement : MonoBehaviour, IUseItem
     private float _duration;
     private bool _isTimer;
     
-    // 수류탄
-    public float _explosionTiming { get; private set; } = 5f;
-    public float _explosionCooldawn { get; private set; } = 0f;
-    public int _grenadeCount = 3;
+    
 
     private void Awake() => CacheComponents();
 
@@ -51,8 +42,6 @@ public class PlayerMovement : MonoBehaviour, IUseItem
     private void Update()
     {
         EndSteamPack();
-        UseGrenade();
-        
     }
 
     private void EndSteamPack()
@@ -72,56 +61,6 @@ public class PlayerMovement : MonoBehaviour, IUseItem
         {
             _durationCool += Time.deltaTime;
             Debug.Log($"{_durationCool} 초 동안 지속중");
-        }
-    }
-    
-    public void UseGrenade()
-    {
-        _grenade.UseItem(this);
-
-        if (!_grenade._isTrowed) return;
-        
-        GrenadeBombTimer();
-    }
-
-    public void GrenadeBombTimer()
-    {
-        _explosionCooldawn += Time.deltaTime;
-
-        if (_explosionCooldawn > _explosionTiming)
-        {
-            // 터친다
-            Debug.Log("터짐");
-            _explosionCooldawn = 0f;
-            _grenade._isTrowed = false;
-
-            if (_grenade._grenadeInstance != null)
-            {
-                Collider[] cols = Physics.OverlapSphere(
-                    _grenade._grenadeInstance.transform.position,
-                    _grenade._explosionRadius);
-                
-                foreach (Collider col in cols)
-                {
-                    IDamageable damageable;
-
-                    damageable = col.GetComponent<IDamageable>();
-
-                    if (damageable != null)
-                    {
-                        damageable.TakeDamage(10);
-                    }
-                }
-            }
-        }
-    }
-
-    private void OnDrawGizmos()
-    {
-        if (_grenade._grenadeInstance != null)
-        {
-            Gizmos.color = Color.red;
-            Gizmos.DrawWireSphere(_grenade._grenadeInstance.transform.position, _grenade._explosionRadius);
         }
     }
 

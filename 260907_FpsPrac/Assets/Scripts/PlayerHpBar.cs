@@ -11,7 +11,5 @@ public class PlayerHpBar : MonoBehaviour
 
     public void SetPlayerHpBar(int currentHp, int maxHp)
     {
-        currentHp *= 100;
-        _hpBar.fillAmount = currentHp / maxHp;
     }
 }

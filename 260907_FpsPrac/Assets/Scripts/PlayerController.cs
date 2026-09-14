@@ -24,8 +24,6 @@ public class PlayerController : MonoBehaviour, IInteractor, IUseItem, IDamageabl
     
     public GameObject GameObject { get => gameObject; }
 
-    public event Action<int> OnUpdateHp;
-
     private void Awake() => CacheComponents();
 
     private void OnEnable()
@@ -65,8 +63,8 @@ public class PlayerController : MonoBehaviour, IInteractor, IUseItem, IDamageabl
     {
         _movement = GetComponent<PlayerMovement>();
         _weapon = GetComponentInChildren<PlayerWeapon>();
-        _playerStat = GetComponentInChildren<PlayerStat>();
-        _playerHpBar = GetComponentInChildren<PlayerHpBar>();
+        _playerStat = GetComponent<PlayerStat>();
+        _playerHpBar = GetComponent<PlayerHpBar>();
         _cameraTransform = Camera.main.transform;
     }
 

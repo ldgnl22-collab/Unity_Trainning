@@ -224,6 +224,7 @@ GameObject:
   - component: {fileID: 4051753601630814382}
   - component: {fileID: 6541652614783271466}
   - component: {fileID: 238486696234770670}
+  - component: {fileID: 8257279878669508066}
   m_Layer: 7
   m_Name: Player
   m_TagString: Player
@@ -310,7 +311,7 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: 33064958cb9161847ad9738aa745f266, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
-  <HP>k__BackingField: 50
+  <HP>k__BackingField: 100
   <ATK>k__BackingField: 0
   <DEF>k__BackingField: 0
 --- !u!114 &4051753601630814382
@@ -333,12 +334,9 @@ MonoBehaviour:
   _maxPitch: 60
   _weapon: {fileID: 2271906512748000826}
   _steamPack: {fileID: 0}
-  _grenade: {fileID: 3779901489562139010, guid: 0faa99af9fcc53048ac236e3dc10d0db, type: 3}
-  <_grenadePos>k__BackingField: {fileID: 9059743308412919360}
   _groundMask:
     serializedVersion: 2
     m_Bits: 512
-  _grenadeCount: 0
   _isSteamPack: 0
 --- !u!114 &6541652614783271466
 MonoBehaviour:
@@ -368,6 +366,27 @@ MonoBehaviour:
   m_Name: 
   m_EditorClassIdentifier: 
   _magazine: {fileID: 0}
+--- !u!114 &8257279878669508066
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 5365266861829561380}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: 668fb524f78597c468a9d1586e07c29a, type: 3}
+  m_Name: 
+  m_EditorClassIdentifier: 
+  _grenadePrefab: {fileID: 3245065764681213630, guid: 0faa99af9fcc53048ac236e3dc10d0db, type: 3}
+  <_throwReadyMaxTime>k__BackingField: 1
+  <_throwDistance>k__BackingField: 30
+  <_grenadeSpeed>k__BackingField: 15
+  <_explosionRadius>k__BackingField: 5
+  <_explosionEffect>k__BackingField: {fileID: 9063289101480540561, guid: a5e20064cf882a44886395b4256546ff, type: 3}
+  <_grenadePos>k__BackingField: {fileID: 9059743308412919360}
+  <_cameraPivot>k__BackingField: {fileID: 4293205726626343510}
+  _grenadeCount: 3
 --- !u!1001 &3907611941157050539
 PrefabInstance:
   m_ObjectHideFlags: 0
