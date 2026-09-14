@@ -16,7 +16,7 @@ public class PlayerMovement : MonoBehaviour, IUseItem
     [SerializeField] private PlayerWeapon _weapon;
     [SerializeField] private SteamPack _steamPack;
     [SerializeField] private Grenade _grenade;
-    [field: SerializeField] public Transform _grenadePos { get; }
+    [field: SerializeField] public Transform _grenadePos { get; private set; }
     
     [SerializeField] LayerMask _groundMask;
     
@@ -27,6 +27,7 @@ public class PlayerMovement : MonoBehaviour, IUseItem
     private KeyCode _throwGrenade = KeyCode.Space;
     public bool _isReadyGrenade => Input.GetKey(_throwGrenade);
     public bool _isThrowGrenade => Input.GetKeyUp(_throwGrenade);
+    public int _grenadeCount;
 
     private float _checkGroundRange;
     private float _pitch;
@@ -37,8 +38,11 @@ public class PlayerMovement : MonoBehaviour, IUseItem
     private float _durationCool;
     private float _duration;
     private bool _isTimer;
-
-    private float _grenadeDistanceTimer;
+    
+    // 수류탄
+    public float _explosionTiming { get; private set; } = 5f;
+    public float _explosionCooldawn { get; private set; } = 0f;
+    public bool _isThrowed { get; private set; }
 
     private void Awake() => CacheComponents();
 
@@ -73,6 +77,23 @@ public class PlayerMovement : MonoBehaviour, IUseItem
     public void UseGrenade()
     {
         _grenade.UseItem(this);
+
+        _isThrowed = Timer(_explosionCooldawn, _explosionTiming);
+    }
+
+    public bool Timer(float cooldawn, float duration)
+    {
+        cooldawn += Time.deltaTime;
+        Debug.Log($"{cooldawn} / {duration}");
+
+        if (cooldawn > duration)
+        {
+            return false;
+        }
+        else
+        {
+            return true;
+        }
     }
 
     public void Rotate()

@@ -327,16 +327,18 @@ MonoBehaviour:
   m_EditorClassIdentifier: 
   <_moveSpeed>k__BackingField: 5
   <_jumpForce>k__BackingField: 5
-  _cameraPivot: {fileID: 4293205726626343510}
+  <_cameraPivot>k__BackingField: {fileID: 4293205726626343510}
   _mouseSensitivity: 3
   _minPitch: -60
   _maxPitch: 60
   _weapon: {fileID: 2271906512748000826}
   _steamPack: {fileID: 0}
-  _grenade: {fileID: 0}
+  _grenade: {fileID: 3779901489562139010, guid: 0faa99af9fcc53048ac236e3dc10d0db, type: 3}
+  <_grenadePos>k__BackingField: {fileID: 9059743308412919360}
   _groundMask:
     serializedVersion: 2
     m_Bits: 512
+  _grenadeCount: 0
   _isSteamPack: 0
 --- !u!114 &6541652614783271466
 MonoBehaviour:
