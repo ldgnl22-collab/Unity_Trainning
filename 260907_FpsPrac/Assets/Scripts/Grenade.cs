@@ -44,9 +44,7 @@ public class Grenade : MonoBehaviour
     private void Update()
     {
         UseItem();
-
-        if (!_isTrowed) return;
-        UpdateCoolTime();
+        // UpdateCoolTime();
     }
     
     public void UseItem()
@@ -74,43 +72,49 @@ public class Grenade : MonoBehaviour
 
             _throwReadyCooldown = 0f;
 
-            GrenadeBombTimer();
-            Destroy(_grenadeInstance, _explosionTiming + 1f);
+            if (_explosionCooldawn > _explosionTiming)
+            {
+                GrenadeBombTimer(_grenadeInstance);
+                _explosionCooldawn = 0f;
+                _isTrowed = false;
+                Destroy(_grenadeInstance, _explosionTiming + 1f);
+            }
         }
-        _isTrowed = false;
     }
     
-    private void GrenadeBombTimer()
+    private void GrenadeBombTimer(GameObject grenadeInstance)
     {
-        if (_explosionCooldawn > _explosionTiming)
+        // _explosionCooldawn = 0f;
+
+        Collider[] cols = Physics.OverlapSphere(
+            grenadeInstance.transform.position,
+            _explosionRadius);
+
+        foreach (Collider col in cols)
         {
-            _explosionCooldawn = 0f;
+            IDamageable damageable;
 
-            Collider[] cols = Physics.OverlapSphere(
-                _grenadeInstance.transform.position,
-                _explosionRadius);
-            
-            foreach (Collider col in cols)
+            damageable = col.GetComponent<IDamageable>();
+
+            if (damageable != null)
             {
-                IDamageable damageable;
-
-                damageable = col.GetComponent<IDamageable>();
-
-                if (damageable != null)
-                {
-                    damageable.TakeDamage(10);
-                    Debug.Log("폭발 피해");
-                }
+                damageable.TakeDamage(10);
+                Debug.Log("폭발 피해");
             }
-
-            _explosionCooldawn = 0f;
-            _isTrowed = false;
         }
     }
 
     private void UpdateCoolTime()
     {
-        _explosionCooldawn += Time.deltaTime;
+        if (_isTrowed)
+        {
+            _explosionCooldawn += Time.deltaTime;
+            Debug.Log($"쿨다운 : {_explosionCooldawn}");
+        }
+        else
+        {
+            _explosionCooldawn = 0f;
+        }
     }
     
     private void OnDrawGizmos()
@@ -128,5 +132,6 @@ public class Grenade : MonoBehaviour
 
     private void Init()
     {
+        _isTrowed = false;
     }
 }
