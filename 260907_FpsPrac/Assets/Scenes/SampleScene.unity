@@ -1497,6 +1497,10 @@ PrefabInstance:
       propertyPath: _magazine
       value: 
       objectReference: {fileID: 690961025}
+    - target: {fileID: 2271906512748000826, guid: 824878ecf3b7edc46957531d86ae3bec, type: 3}
+      propertyPath: _reloadDelay
+      value: 1
+      objectReference: {fileID: 0}
     - target: {fileID: 4051753601630814382, guid: 824878ecf3b7edc46957531d86ae3bec, type: 3}
       propertyPath: _steamPack
       value: 

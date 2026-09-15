@@ -109,11 +109,21 @@ public class PlayerWeapon : MonoBehaviour
     //     }
     // }
 
+    [SerializeField] private float _reloadDelay;
+    private bool _isReloading;
+
     public void Reload()
     {
         if (!_isPressedReload) return;
-        
+        StartCoroutine(ReloadRoutine());
+    }
+    
+    public IEnumerator ReloadRoutine()
+    {
+        _isReloading = true;
+        yield return new WaitForSeconds(_reloadDelay);
         _currentMagazine = _maxMagazine;
+        _isReloading = false;
     }
 
     private bool TryGetDamageable(out IDamageable damageable)
