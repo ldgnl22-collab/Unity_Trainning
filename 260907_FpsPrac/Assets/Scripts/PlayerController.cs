@@ -22,9 +22,17 @@ public class PlayerController : MonoBehaviour, IInteractor, IUseItem, IDamageabl
     private bool _isPressedInteractionKey => Input.GetKeyDown(_interactionKey);
     private bool _canInteraction => _hasDetectInteractable && _isPressedInteractionKey;
     
+    // 코루틴
+    [SerializeField] private float _playerRayDelay;
+    private WaitForSeconds _wait;
+    private Coroutine _interactRoutine;
+    
     public GameObject GameObject { get => gameObject; }
 
-    private void Awake() => CacheComponents();
+    private void Awake()
+    {
+        CacheComponents();
+    }
 
     private void OnEnable()
     {
@@ -95,6 +103,34 @@ public class PlayerController : MonoBehaviour, IInteractor, IUseItem, IDamageabl
 
     public void DetectInteractable()
     {
+        StartRoutine();
+
+        if (!_weapon._canFire)
+        {
+            StopRoutine();
+        }
+    }
+
+    private void StartRoutine()
+    {
+        if (_interactRoutine != null) return;
+
+        _interactRoutine = StartCoroutine(DetectInteractableRoutine());
+    }
+
+    private void StopRoutine()
+    {
+        if (_interactRoutine == null) return;
+        
+        StopCoroutine(_interactRoutine);
+        _interactRoutine = null;
+    }
+    
+    // 코루틴으로 0.1초 정도의 간격으로 레이쏘기
+    public IEnumerator DetectInteractableRoutine()
+    {
+        yield return _interactRoutine;
+        Debug.Log("사격");
         Ray ray = new Ray(_cameraTransform.position, _cameraTransform.forward);
         RaycastHit hit;
 
@@ -106,14 +142,14 @@ public class PlayerController : MonoBehaviour, IInteractor, IUseItem, IDamageabl
                 _targetInteractable = null;
             }
 
-            return;
+            yield break;
         }
         
         if (_hasDetectInteractable)
         {
             if (hit.collider.gameObject == _targetInteractable.GameObject)
             {
-                return; // 같은 Interactable을 계속 주시하고 있는 경우
+                yield break; // 같은 Interactable을 계속 주시하고 있는 경우
             }
         }
         
@@ -140,5 +176,10 @@ public class PlayerController : MonoBehaviour, IInteractor, IUseItem, IDamageabl
     public void TakeDamage(int damage)
     {
         _playerStat.Damage(damage);
+    }
+
+    private void Init()
+    {
+        _wait = new WaitForSeconds(_playerRayDelay);
     }
 }

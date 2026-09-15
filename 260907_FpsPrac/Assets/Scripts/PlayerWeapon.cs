@@ -14,17 +14,21 @@ public class PlayerWeapon : MonoBehaviour
     [SerializeField] int _maxMagazine = 30;
     [SerializeField] private FlameEffect _flameEffect;
     [SerializeField] private FlameEffect _bulletImpactPrefab;
-
+    [SerializeField] private float _reloadDelay;
+    
     [field: SerializeField] public float _shootingSpeed { get; set; } = 0.5f;
 
     private int _currentMagazine;
     private float _coolTime;
+    
+    private bool _isReloading;
     
     public int CurrentMagazine => _currentMagazine;
     public int MaxMagazine => _maxMagazine;
     private bool _hasBullets => _currentMagazine > 0;
     private bool _isPressedFire => Input.GetKey(_fireKey);
     private bool _isPressedReload => Input.GetKeyDown(_reloadKey);
+    public bool _canFire => _isPressedFire && _hasBullets && !_isReloading;
     
     // 한 탄알집에 30발 들어갈수 있다고 가정
     // 30 발 다쏘면 총 안쏴짐
@@ -53,12 +57,7 @@ public class PlayerWeapon : MonoBehaviour
 
     public void Fire()
     {
-        // if (_isPressedReload)
-        // {
-        //     ReLoad();
-        // }
-        
-        if (!_isPressedFire) return;
+        if (!_canFire) return;
         if (!WeaponCoolTime()) return;
         if (_currentMagazine <= 0)
         {
@@ -91,30 +90,10 @@ public class PlayerWeapon : MonoBehaviour
         effectTransform.forward = hit.normal; // normal은 부딪힌 면의 수직방향
     }
 
-    // private void ReLoad()
-    // {
-    //     if (currentBulletCount >= 0 && currentBulletCount <= maxBulletCount)
-    //     {
-    //         currentBulletCount = maxBulletCount;
-    //         Debug.Log("탄약이 장전됨");
-    //     }
-    //     else if (currentBulletCount >= maxBulletCount)
-    //     {
-    //         currentBulletCount = maxBulletCount;
-    //         Debug.Log("탄약이 가득참");
-    //     }
-    //     else
-    //     {
-    //         return;
-    //     }
-    // }
-
-    [SerializeField] private float _reloadDelay;
-    private bool _isReloading;
-
     public void Reload()
     {
         if (!_isPressedReload) return;
+        if (_isReloading) return;
         StartCoroutine(ReloadRoutine());
     }
     
@@ -153,4 +132,7 @@ public class PlayerWeapon : MonoBehaviour
         _coolTime = 0f;
         _currentMagazine = _maxMagazine;
     }
+    
+    // 상시 돌려놓는걸로 하고
+    // 쿨다운 적용해야 할 때까지 기다렸다가
 }

@@ -62,8 +62,8 @@ public class TurretController : MonoBehaviour, IDamageable
 
     private void Update()
     {
-        UpdateCurrentCoolDown();
-        RayShotToPlayer();
+        UpdateCurrentCoolDown(); // 코루틴
+        RayShotToPlayer(); // 코루틴
         Rotate();
         Fire();
     }

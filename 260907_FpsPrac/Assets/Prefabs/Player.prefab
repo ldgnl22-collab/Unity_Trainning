@@ -177,6 +177,7 @@ MonoBehaviour:
   _maxMagazine: 30
   _flameEffect: {fileID: 4257428329187931218}
   _bulletImpactPrefab: {fileID: -5747395137593611993, guid: 268ad5f7fa8f16347a87aaad3e802ec0, type: 3}
+  _reloadDelay: 1
   <_shootingSpeed>k__BackingField: 0.5
 --- !u!1 &4246998706873669162
 GameObject:
@@ -353,6 +354,7 @@ MonoBehaviour:
   _cameraPivot: {fileID: 4293205726626343510}
   _detectionRange: 4
   _interactionKey: 101
+  _playerRayDelay: 0
 --- !u!114 &238486696234770670
 MonoBehaviour:
   m_ObjectHideFlags: 0
@@ -379,14 +381,14 @@ MonoBehaviour:
   m_Name: 
   m_EditorClassIdentifier: 
   _grenadePrefab: {fileID: 3245065764681213630, guid: 0faa99af9fcc53048ac236e3dc10d0db, type: 3}
+  _grenadeEffectPrefab: {fileID: 8626364490045431724, guid: a5e20064cf882a44886395b4256546ff, type: 3}
   <_throwReadyMaxTime>k__BackingField: 1
   <_throwDistance>k__BackingField: 30
   <_grenadeSpeed>k__BackingField: 15
-  <_explosionRadius>k__BackingField: 5
+  <_explosionRadius>k__BackingField: 3
   <_explosionEffect>k__BackingField: {fileID: 9063289101480540561, guid: a5e20064cf882a44886395b4256546ff, type: 3}
   <_grenadePos>k__BackingField: {fileID: 9059743308412919360}
   <_cameraPivot>k__BackingField: {fileID: 4293205726626343510}
-  _grenadeCount: 3
 --- !u!1001 &3907611941157050539
 PrefabInstance:
   m_ObjectHideFlags: 0

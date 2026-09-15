@@ -2,7 +2,7 @@
 
 ## Coroutine
 - 단일 쓰레드 에서 돌아가는 동기 방식
-- 
+- 숙련좀 되면 UniTask 알아보기
 
 private float _time = 2f;
     

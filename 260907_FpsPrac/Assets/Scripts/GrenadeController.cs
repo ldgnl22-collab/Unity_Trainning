@@ -4,7 +4,7 @@ using System.Collections.Generic;
 using System.Timers;
 using UnityEngine;
 
-public class Grenade : MonoBehaviour
+public class GrenadeController : MonoBehaviour
 {
     Rigidbody rb;
     PlayerMovement _player;
@@ -14,6 +14,7 @@ public class Grenade : MonoBehaviour
     
     private float _throwForce;
     private float _throwReadyCooldown;
+    
     [field: SerializeField] public float _throwReadyMaxTime { get; private set; } = 1f;
     [field: SerializeField] public float _throwDistance { get; private set; } = 30f;
     [field: SerializeField] public float _grenadeSpeed { get; set; } = 15f;
@@ -27,13 +28,15 @@ public class Grenade : MonoBehaviour
     private KeyCode _throwGrenade = KeyCode.Space;
     public bool _isReadyGrenade => Input.GetKey(_throwGrenade);
     public bool _isThrowGrenade => Input.GetKeyUp(_throwGrenade);
-
     public bool _isTrowed { get; set; } = false;
     
     // 수류탄
-    public float _explosionTiming { get; private set; } = 5f;
-    public float _explosionCooldawn { get; private set; } = 0f;
-    public int _grenadeCount = 3;
+    private int _grenadeCount = 3;
+    private float _explosionTiming = 5f;
+    private float _explosionCooldown = 0f;
+    private WaitForSeconds _wait;
+    private Coroutine[] _interactRoutine;
+    private int _useCount;
     
     private void Awake()
     {
@@ -46,9 +49,24 @@ public class Grenade : MonoBehaviour
         UseItem();
         // UpdateCoolTime();
     }
+
+    private bool CheckCanUseGrenade()
+    {
+        if (_useCount >= _grenadeCount)
+        {
+            // 수류탄 없음
+            return false;
+        }
+        else
+        {
+            return true;
+        }
+    }
     
     public void UseItem()
     {
+        if (!CheckCanUseGrenade()) return;
+        
         if (_isReadyGrenade)
         {
             if (_throwReadyMaxTime > _throwReadyCooldown)
@@ -66,25 +84,56 @@ public class Grenade : MonoBehaviour
 
             _grenadeInstance = Instantiate(_grenadePrefab, _grenadePos.position, Quaternion.identity);
 
-            _grenadeInstance.GetComponent<Rigidbody>().AddForce(
-                _cameraPivot.forward *
-                (_grenadeSpeed * _throwReadyCooldown), ForceMode.Impulse);
+            // _grenadeInstance.GetComponent<Rigidbody>().AddForce(
+            //     _cameraPivot.forward *
+            //     (_grenadeSpeed * _throwReadyCooldown), ForceMode.Impulse);
+
+            _grenadeInstance.GetComponent<Rigidbody>().velocity = _cameraPivot.forward *
+                                                                  (_grenadeSpeed * _throwReadyCooldown);
 
             _throwReadyCooldown = 0f;
 
-            if (_explosionCooldawn > _explosionTiming)
-            {
-                GrenadeBombTimer(_grenadeInstance);
-                _explosionCooldawn = 0f;
-                _isTrowed = false;
-                Destroy(_grenadeInstance, _explosionTiming + 1f);
-            }
+            GrenadeBombTimer();
         }
     }
     
-    private void GrenadeBombTimer(GameObject grenadeInstance)
+    private void StartRoutine()
     {
-        // _explosionCooldawn = 0f;
+        if (_useCount >= _grenadeCount)
+        {
+            _useCount = 0;
+        }
+        if (_interactRoutine[_useCount] != null) return;
+
+        _interactRoutine[_useCount] = StartCoroutine(GrenadeBombTimerRoutine(_grenadeInstance));
+    }
+
+    private void StopRoutine()
+    {
+        if (_useCount >= _grenadeCount)
+        {
+            StopCoroutine(GrenadeBombTimerRoutine(_grenadeInstance));
+            _interactRoutine[_grenadeCount-1] = null;
+            return;
+        }
+        if (_interactRoutine[_useCount] == null) return;
+
+        StopCoroutine(GrenadeBombTimerRoutine(_grenadeInstance));
+        _interactRoutine[_useCount] = null;
+    }
+    
+    private void GrenadeBombTimer()
+    {
+        StartRoutine();
+
+        _useCount++;
+        // if(!_isTrowed)
+        // StopRoutine();
+    }
+    
+    private IEnumerator GrenadeBombTimerRoutine(GameObject grenadeInstance)
+    {
+        yield return _wait;
 
         Collider[] cols = Physics.OverlapSphere(
             grenadeInstance.transform.position,
@@ -101,22 +150,18 @@ public class Grenade : MonoBehaviour
                 damageable.TakeDamage(10);
                 Debug.Log("폭발 피해");
             }
+            
+            _isTrowed = false;
+            _grenadeEffectPrefab.SetActive(true);
+            Destroy(grenadeInstance);
         }
     }
 
-    private void UpdateCoolTime()
+    private void OnDestroy()
     {
-        if (_isTrowed)
-        {
-            _explosionCooldawn += Time.deltaTime;
-            Debug.Log($"쿨다운 : {_explosionCooldawn}");
-        }
-        else
-        {
-            _explosionCooldawn = 0f;
-        }
+        StopRoutine();
     }
-    
+
     private void OnDrawGizmos()
     {
         if (_grenadeInstance != null)
@@ -132,6 +177,8 @@ public class Grenade : MonoBehaviour
 
     private void Init()
     {
+        _wait = new WaitForSeconds(_explosionTiming);
+        _interactRoutine = new Coroutine[_grenadeCount];
         _isTrowed = false;
     }
 }
