@@ -10,7 +10,9 @@ public class GrenadeController : MonoBehaviour
     PlayerMovement _player;
 
     [SerializeField] private GameObject _grenadePrefab;
+    [SerializeField] private GameObject _effectPrefab;
     private GameObject _grenadeInstance;
+    private GameObject _effectInstance;
     
     private float _throwForce;
     private float _throwReadyCooldown;
@@ -19,8 +21,6 @@ public class GrenadeController : MonoBehaviour
     [field: SerializeField] public float _throwDistance { get; private set; } = 30f;
     [field: SerializeField] public float _grenadeSpeed { get; set; } = 15f;
     [field: SerializeField] public float _explosionRadius  { get; private set; } = 2f;
-
-    [field: SerializeField] public GrenadeEffect _explosionEffect { get; set; }
     [field: SerializeField] public Transform _grenadePos { get; private set; }
     [field: SerializeField] public Transform _cameraPivot { get; private set; }
     
@@ -138,7 +138,10 @@ public class GrenadeController : MonoBehaviour
         Collider[] cols = Physics.OverlapSphere(
             grenadeInstance.transform.position,
             _explosionRadius);
-
+        
+        _effectInstance = Instantiate(_effectPrefab, grenadeInstance.transform.position, Quaternion.identity);
+        _effectInstance.GetComponent<ParticleSystem>().Play();
+        
         foreach (Collider col in cols)
         {
             IDamageable damageable;
@@ -152,8 +155,7 @@ public class GrenadeController : MonoBehaviour
             }
             
             _isTrowed = false;
-            _grenadeEffectPrefab.SetActive(true);
-            Destroy(grenadeInstance);
+            Destroy(grenadeInstance, 2f);
         }
     }
 

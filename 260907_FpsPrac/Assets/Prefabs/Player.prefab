@@ -381,12 +381,11 @@ MonoBehaviour:
   m_Name: 
   m_EditorClassIdentifier: 
   _grenadePrefab: {fileID: 3245065764681213630, guid: 0faa99af9fcc53048ac236e3dc10d0db, type: 3}
-  _grenadeEffectPrefab: {fileID: 8626364490045431724, guid: a5e20064cf882a44886395b4256546ff, type: 3}
+  _effectPrefab: {fileID: 8626364490045431724, guid: a5e20064cf882a44886395b4256546ff, type: 3}
   <_throwReadyMaxTime>k__BackingField: 1
   <_throwDistance>k__BackingField: 30
   <_grenadeSpeed>k__BackingField: 15
   <_explosionRadius>k__BackingField: 3
-  <_explosionEffect>k__BackingField: {fileID: 9063289101480540561, guid: a5e20064cf882a44886395b4256546ff, type: 3}
   <_grenadePos>k__BackingField: {fileID: 9059743308412919360}
   <_cameraPivot>k__BackingField: {fileID: 4293205726626343510}
 --- !u!1001 &3907611941157050539
