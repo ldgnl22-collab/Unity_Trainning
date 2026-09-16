@@ -6,8 +6,8 @@ using System;
 public class ScoreManager : MonoBehaviour
 {
     private int _score;
-    
-    public static ScoreManager Instance { get; private set; }
+
+    public static ScoreManager Instance;
 
     public Action<int> ScoreChanged;
 
@@ -28,11 +28,22 @@ public class ScoreManager : MonoBehaviour
     {
         _score += amount;
         
-        ScoreChanged?.Invoke(_score);
+        // ScoreChanged?.Invoke(_score);
+
+        if (ScoreChanged != null)
+        {
+            ScoreChanged(_score);
+        }
     }
 
     private void SetSingleton()
     {
+        if (Instance != null && Instance != this)
+        {
+            Destroy(gameObject);
+            return;
+        }
+        
         Instance = this;
     }
 }

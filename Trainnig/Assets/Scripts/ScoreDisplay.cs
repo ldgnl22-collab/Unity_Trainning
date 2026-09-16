@@ -12,7 +12,6 @@ public class ScoreDisplay : MonoBehaviour
 
     private void BindScoreEvents()
     {
-        ScoreManager.Instance.ScoreChanged += OnScoreChanged;
     }
 
     private void OnScoreChanged(int score)
