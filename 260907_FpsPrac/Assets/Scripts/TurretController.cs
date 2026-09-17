@@ -1,5 +1,6 @@
 using System.Collections;
 using System.Collections.Generic;
+using System;
 using UnityEngine;
 using UnityEngine.UI;
 
@@ -21,11 +22,12 @@ public class TurretController : MonoBehaviour, IDamageable
     [SerializeField] private float _bulletSpeed;
     [SerializeField] private float _returnDelay;
 
-    // [SerializeField] private Canvas _hpBar;
+    [SerializeField] private Image _hpBarImage;
     
     private float _currentCoolDown;
     private Transform _playerTransform;
-    private int _hp = 20;
+    private int _maxHp = 20;
+    private int _currentHp;
     
     // private bool _isPlayerInTrigger => _playerTransform != null;
     private bool _isPlayerInTrigger { get { return _playerTransform != null; } }
@@ -38,11 +40,12 @@ public class TurretController : MonoBehaviour, IDamageable
 
     private void Awake()
     {
-        Init();
-        Debug.Log("<color=red> 컬러로 </color>");
+        // Debug.Log("<color=red> 컬러로 </color>");
         CacheComponents();
         // _sphereCollider = GetComponent<SphereCollider>();
     }
+
+    private void Start() => Init();
 
     private void OnTriggerEnter(Collider other)
     {
@@ -160,11 +163,10 @@ public class TurretController : MonoBehaviour, IDamageable
 
     public void TakeDamage(int damage)
     {
-        _hp -= damage;
+        _currentHp -= damage;
     }
 
     private void Init()
     {
-        //_hpBar.enabled = false;
     }
 }
