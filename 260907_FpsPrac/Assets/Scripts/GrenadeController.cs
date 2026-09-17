@@ -155,7 +155,9 @@ public class GrenadeController : MonoBehaviour
             }
             
             _isTrowed = false;
+            grenadeInstance.SetActive(false);
             Destroy(grenadeInstance, 2f);
+            Destroy(_effectInstance, 2f);
         }
     }
 
