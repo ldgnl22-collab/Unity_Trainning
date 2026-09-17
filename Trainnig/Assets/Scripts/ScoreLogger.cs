@@ -1,9 +1,8 @@
 using System.Collections;
 using System.Collections.Generic;
 using UnityEngine;
-using System;
 
-public class ScoreDisplay : MonoBehaviour
+public class ScoreLogger : MonoBehaviour
 {
     private void Start()
     {
@@ -14,15 +13,15 @@ public class ScoreDisplay : MonoBehaviour
     {
         ScoreManager.Instance.OnScoreChanged += OnScoreChanged;
     }
-
+    
+    private void OnScoreChanged(int score)
+    {
+        Debug.Log($"ScoreLogger: recorded {score}");
+    }
+    
     private void UnBindScoreEvents()
     {
         ScoreManager.Instance.OnScoreChanged -= OnScoreChanged;
-    }
-
-    private void OnScoreChanged(int score)
-    {
-        Debug.Log($"ScoreDisplay: score is {score}");
     }
 
     private void OnDisable()

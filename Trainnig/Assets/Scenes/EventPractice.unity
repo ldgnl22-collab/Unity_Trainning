@@ -132,6 +132,7 @@ GameObject:
   m_Component:
   - component: {fileID: 321339160}
   - component: {fileID: 321339161}
+  - component: {fileID: 321339162}
   m_Layer: 0
   m_Name: Listeners
   m_TagString: Untagged
@@ -164,6 +165,18 @@ MonoBehaviour:
   m_Enabled: 1
   m_EditorHideFlags: 0
   m_Script: {fileID: 11500000, guid: 9a274e9cf92a9fd4d80525c99be8dfc4, type: 3}
+  m_Name: 
+  m_EditorClassIdentifier: 
+--- !u!114 &321339162
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 321339159}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: c200cb4697d39e44e8315a78c34e4254, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
 --- !u!1 &384641496

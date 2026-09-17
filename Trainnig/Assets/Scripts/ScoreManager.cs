@@ -9,7 +9,7 @@ public class ScoreManager : MonoBehaviour
 
     public static ScoreManager Instance;
 
-    public Action<int> ScoreChanged;
+    public event Action<int> OnScoreChanged;
 
     private void Awake()
     {
@@ -29,20 +29,17 @@ public class ScoreManager : MonoBehaviour
         _score += amount;
         
         // ScoreChanged?.Invoke(_score);
-
-        if (ScoreChanged != null)
-        {
-            ScoreChanged(_score);
-        }
+        
+        OnScoreChanged?.Invoke(_score);
     }
 
     private void SetSingleton()
     {
-        if (Instance != null && Instance != this)
+        /*if (Instance != null && Instance != this)
         {
             Destroy(gameObject);
             return;
-        }
+        }*/
         
         Instance = this;
     }
