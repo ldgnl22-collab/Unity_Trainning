@@ -133,13 +133,14 @@ GameObject:
   - component: {fileID: 321339160}
   - component: {fileID: 321339161}
   - component: {fileID: 321339162}
+  - component: {fileID: 321339163}
   m_Layer: 0
   m_Name: Listeners
   m_TagString: Untagged
   m_Icon: {fileID: 0}
   m_NavMeshLayer: 0
   m_StaticEditorFlags: 0
-  m_IsActive: 1
+  m_IsActive: 0
 --- !u!4 &321339160
 Transform:
   m_ObjectHideFlags: 0
@@ -179,6 +180,18 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: c200cb4697d39e44e8315a78c34e4254, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
+--- !u!114 &321339163
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 321339159}
+  m_Enabled: 0
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: c14339f7cc33c2f4a82505c24eb33be7, type: 3}
+  m_Name: 
+  m_EditorClassIdentifier: 
 --- !u!1 &384641496
 GameObject:
   m_ObjectHideFlags: 0
@@ -208,6 +221,33 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: 0d1da56280ca0a34ba6d923bb67ceab9, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
+  _onScoreChanged:
+    m_PersistentCalls:
+      m_Calls:
+      - m_Target: {fileID: 321339161}
+        m_TargetAssemblyTypeName: ScoreDisplay, Assembly-CSharp
+        m_MethodName: OnScoreChanged
+        m_Mode: 1
+        m_Arguments:
+          m_ObjectArgument: {fileID: 0}
+          m_ObjectArgumentAssemblyTypeName: UnityEngine.Object, UnityEngine
+          m_IntArgument: 0
+          m_FloatArgument: 0
+          m_StringArgument: 
+          m_BoolArgument: 0
+        m_CallState: 2
+      - m_Target: {fileID: 321339162}
+        m_TargetAssemblyTypeName: ScoreLogger, Assembly-CSharp
+        m_MethodName: OnScoreChanged
+        m_Mode: 1
+        m_Arguments:
+          m_ObjectArgument: {fileID: 0}
+          m_ObjectArgumentAssemblyTypeName: UnityEngine.Object, UnityEngine
+          m_IntArgument: 0
+          m_FloatArgument: 0
+          m_StringArgument: 
+          m_BoolArgument: 0
+        m_CallState: 2
 --- !u!4 &384641498
 Transform:
   m_ObjectHideFlags: 0

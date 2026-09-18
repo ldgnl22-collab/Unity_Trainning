@@ -4,24 +4,24 @@ using UnityEngine;
 
 public class ScoreLogger : MonoBehaviour
 {
-    private void Start()
+    private void OnEnable()
     {
         BindScoreEvents();
     }
 
     private void BindScoreEvents()
     {
-        ScoreManager.Instance.OnScoreChanged += OnScoreChanged;
+        ScoreManager.Instance.OnScoreChanged.AddListener(OnScoreChanged);
     }
     
-    private void OnScoreChanged(int score)
+    public void OnScoreChanged()
     {
-        Debug.Log($"ScoreLogger: recorded {score}");
+        Debug.Log($"ScoreLogger: recorded ");
     }
     
     private void UnBindScoreEvents()
     {
-        ScoreManager.Instance.OnScoreChanged -= OnScoreChanged;
+        ScoreManager.Instance.OnScoreChanged.RemoveListener(OnScoreChanged);
     }
 
     private void OnDisable()

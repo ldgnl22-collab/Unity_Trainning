@@ -2,14 +2,26 @@ using System.Collections;
 using System.Collections.Generic;
 using UnityEngine;
 using System;
+using TMPro;
+using UnityEngine.Events;
 
 public class ScoreManager : MonoBehaviour
 {
+    [SerializeField]
+    private class IntEvent : UnityEvent<int>
+    {
+        
+    }
+    
+    [SerializeField] private IntEvent _onScoreChanged;
+    
     private int _score;
 
     public static ScoreManager Instance;
 
-    public event Action<int> OnScoreChanged;
+    public IntEvent OnScoreChanged => _onScoreChanged;
+    
+    // public event Action<int> OnScoreChanged;
 
     private void Awake()
     {
@@ -28,9 +40,7 @@ public class ScoreManager : MonoBehaviour
     {
         _score += amount;
         
-        // ScoreChanged?.Invoke(_score);
-        
-        OnScoreChanged?.Invoke(_score);
+        _onScoreChanged?.Invoke(_score);
     }
 
     private void SetSingleton()
