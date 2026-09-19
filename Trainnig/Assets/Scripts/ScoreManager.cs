@@ -7,8 +7,8 @@ using UnityEngine.Events;
 
 public class ScoreManager : MonoBehaviour
 {
-    [SerializeField]
-    private class IntEvent : UnityEvent<int>
+    [Serializable]
+    public class IntEvent : UnityEvent<int>
     {
         
     }
@@ -40,7 +40,7 @@ public class ScoreManager : MonoBehaviour
     {
         _score += amount;
         
-        _onScoreChanged?.Invoke(_score);
+        _onScoreChanged.Invoke(_score);
     }
 
     private void SetSingleton()

@@ -22,9 +22,6 @@ public class ScoreDisplay : MonoBehaviour
     private void BindScoreEvents()
     {
         ScoreManager.Instance.OnScoreChanged.AddListener(OnScoreChanged);
-        ScoreManager.Instance.OnScoreChanged.AddListener(OnScoreChanged);
-        ScoreManager.Instance.OnScoreChanged.AddListener(OnScoreChanged);
-        ScoreManager.Instance.OnScoreChanged.AddListener(OnScoreChanged);
     }
     
     private void UnBindScoreEvents()
@@ -32,9 +29,9 @@ public class ScoreDisplay : MonoBehaviour
         ScoreManager.Instance.OnScoreChanged.RemoveListener(OnScoreChanged);
     }
 
-    public void OnScoreChanged()
+    public void OnScoreChanged(int score)
     {
-        Debug.Log($"ScoreDisplay: score is ");
+        Debug.Log($"ScoreDisplay: score is {score}");
     }
 
     private void OnDisable()

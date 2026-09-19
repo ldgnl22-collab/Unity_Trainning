@@ -14,9 +14,9 @@ public class ScoreLogger : MonoBehaviour
         ScoreManager.Instance.OnScoreChanged.AddListener(OnScoreChanged);
     }
     
-    public void OnScoreChanged()
+    public void OnScoreChanged(int score)
     {
-        Debug.Log($"ScoreLogger: recorded ");
+        Debug.Log($"ScoreLogger: recorded {score}");
     }
     
     private void UnBindScoreEvents()
