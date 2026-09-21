@@ -2,6 +2,7 @@ using System.Collections;
 using System.Collections.Generic;
 using UnityEngine;
 using System;
+using UnityEngine.Events;
 
 // [RequireComponent(typeof(Rigidbody))] // 리지드바디 강제 추가
 public class PlayerController : MonoBehaviour, IInteractor, IUseItem, IDamageable
@@ -29,9 +30,26 @@ public class PlayerController : MonoBehaviour, IInteractor, IUseItem, IDamageabl
     
     public GameObject GameObject { get => gameObject; }
 
+    public UnityEvent onChangedHpBar;
+    
+    private static PlayerController _instance;
+
+    public static PlayerController Instance
+    {
+        get
+        {
+            if (_instance == null)
+            {
+                _instance = FindObjectOfType<PlayerController>();
+            }
+            return _instance;
+        }
+    }
+
     private void Awake()
     {
         CacheComponents();
+        SetSingleton();
     }
 
     private void OnEnable()
@@ -66,6 +84,8 @@ public class PlayerController : MonoBehaviour, IInteractor, IUseItem, IDamageabl
     private void OnDisable()
     {
     }
+    
+    private void OnDestroy() => _instance = null;
 
     private void CacheComponents()
     {
@@ -176,10 +196,24 @@ public class PlayerController : MonoBehaviour, IInteractor, IUseItem, IDamageabl
     public void TakeDamage(int damage)
     {
         _playerStat.Damage(damage);
+        _playerHpBar.SetPlayerHpBar(_playerStat.HP, _playerStat.MAX_HP);
+        
     }
 
     private void Init()
     {
         _wait = new WaitForSeconds(_playerRayDelay);
+    }
+
+    private void SetSingleton()
+    {
+        if (Instance != null && Instance != this)
+        {
+            Destroy(gameObject);
+        }
+        else
+        {
+            _instance = this;
+        }
     }
 }
